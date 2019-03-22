@@ -16,11 +16,6 @@ import org.but4reuse.adaptedmodel.helpers.AdaptedModelHelper;
 import org.but4reuse.adaptedmodel.manager.AdaptedModelManager;
 import org.but4reuse.adapters.IAdapter;
 import org.but4reuse.adapters.IElement;
-import org.but4reuse.adapters.JavaUnderstanding.activator.Activator;
-import org.but4reuse.adapters.JavaUnderstanding.adapter.JavaUnderstandingAdapter;
-import org.but4reuse.adapters.JavaUnderstanding.adapter.JavaUnderstandingAdapter.Mode;
-import org.but4reuse.adapters.JavaUnderstanding.preferences.JavaUnderstandingAdapterPreferencePage;
-import org.but4reuse.adapters.JavaUnderstanding.preferences.JavaUnderstandingAdapterPreferencePage.Choice;
 import org.but4reuse.adapters.helper.AdaptersHelper;
 import org.but4reuse.adapters.ui.AdaptersSelectionDialog;
 import org.but4reuse.utils.workbench.WorkbenchUtils;
@@ -79,104 +74,7 @@ public class SaveDataUtils {
 			Map<String, String> javaUnderstandingConfig = new HashMap<String, String>();
 			Map<String, String> modeConfig = new HashMap<String, String>();
 			
-			for(IAdapter adapter : adapters) {
-				if(adapter instanceof JavaUnderstandingAdapter) {
-					Mode mode = ((JavaUnderstandingAdapter)adapter).getMode();
-					javaUnderstandingConfig.put("Mode",mode.toString());
-					boolean ignorePath = Activator.getDefault()
-							 					  .getPreferenceStore()
-							 					  .getBoolean(JavaUnderstandingAdapterPreferencePage.IGNORE_PATH);
-					javaUnderstandingConfig.put("IgnorePath", String.valueOf(ignorePath));
-					
-					// get configuration of the mode used
-					switch (mode) {
-						
-						case IMPORTS:
-							break;
-						case FILES:
-							modeConfig.put("files level option",		
-									Activator.getDefault()
-											 .getPreferenceStore()
-											 .getString(JavaUnderstandingAdapterPreferencePage.FILES_OPTION));
-							break;
-						case INTERFACES:
-							break;
-						case METHODS:
-							modeConfig.put("Compare bodies of methods",
-								Choice.valueOf(
-									Activator.getDefault()
-											 .getPreferenceStore()
-											 .getString(JavaUnderstandingAdapterPreferencePage.BODY))
-											 .name());
-							modeConfig.put("Bodies comparison's method", 
-								Choice.valueOf(
-									Activator.getDefault()
-											 .getPreferenceStore()
-											 .getString(JavaUnderstandingAdapterPreferencePage.ORDER_SENSITIVITY))
-											 .name());
-							modeConfig.put("Bodies similarity pourcentage accurency",
-								Activator.getDefault()
-										 .getPreferenceStore()
-										 .getInt(JavaUnderstandingAdapterPreferencePage.SIMILARITY_LEVEL)+"%");
-							modeConfig.put("Compare names of methods",
-								Choice.valueOf(
-									Activator.getDefault()
-											 .getPreferenceStore()
-											 .getString(JavaUnderstandingAdapterPreferencePage.NAME_METHOD))
-											 .name());
-							modeConfig.put("Compare return type of methods",
-								Choice.valueOf(
-									Activator.getDefault()
-											 .getPreferenceStore()
-											 .getString(JavaUnderstandingAdapterPreferencePage.RETURNTYPE))
-											 .name());
-							modeConfig.put("Compare parameters of methods",
-								Choice.valueOf(
-									Activator.getDefault()
-											 .getPreferenceStore()
-											 .getString(JavaUnderstandingAdapterPreferencePage.PARAMETERS))
-											 .name());
-							modeConfig.put("Compare modifiers of methods",
-								Choice.valueOf(
-									Activator.getDefault()
-											 .getPreferenceStore()
-											 .getString(JavaUnderstandingAdapterPreferencePage.MODIFIER_METHOD))
-											 .name());
-							break;
-						case SUPERCLASS:
-							break;
-						case FIELDS:
-							modeConfig.put("Compare names of fields",
-							Choice.valueOf(
-									Activator.getDefault()
-											 .getPreferenceStore()
-											 .getString(JavaUnderstandingAdapterPreferencePage.NAME_FIELD))
-											 .name());
-							modeConfig.put("Compare datatypes of fields",
-							Choice.valueOf(
-									Activator.getDefault()
-											 .getPreferenceStore()
-											 .getString(JavaUnderstandingAdapterPreferencePage.DATATYPE_FIELD))
-											 .name());
-							modeConfig.put("Compare modifiers of fields",
-								Choice.valueOf(
-									Activator.getDefault()
-											 .getPreferenceStore()
-											 .getString(JavaUnderstandingAdapterPreferencePage.MODIFIER_FIELD))
-											 .name());
-							modeConfig.put("Compare attributes of fields",
-								Choice.valueOf(
-									Activator.getDefault()
-											 .getPreferenceStore()
-											 .getString(JavaUnderstandingAdapterPreferencePage.ATTRIBUTE_FIELD))
-											 .name());
-							break;
-						default:
-							break;
-					}
-						
-				}
-			}
+			
 			
 			// Analyse based on the artefacts
 			// Calculate the level of reuse of each artefact
