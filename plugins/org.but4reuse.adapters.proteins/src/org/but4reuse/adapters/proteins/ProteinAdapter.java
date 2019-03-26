@@ -71,8 +71,11 @@ public class ProteinAdapter implements IAdapter {
 		}
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EGAAC)){
 			Context context = new Context(new MethodEGAAC());
+
 			return context.executeMethod(letters);
 		}
+		
+		
 		return null;
 	}
 
@@ -95,8 +98,7 @@ public class ProteinAdapter implements IAdapter {
 				}
 			}
 			FileUtils.appendToFile(file,myStringBuilder.toString());
-			AnalyseXML xml = new AnalyseXML();
-			xml.analyse();
+	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

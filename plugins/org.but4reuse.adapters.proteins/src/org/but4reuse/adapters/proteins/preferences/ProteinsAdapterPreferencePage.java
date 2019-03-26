@@ -1,5 +1,7 @@
 package org.but4reuse.adapters.proteins.preferences;
 
+import org.but4reuse.utils.ui.preferences.DoubleScaleFieldEditor;
+import org.but4reuse.adapters.preferences.PreferencesHelper;
 import org.but4reuse.adapters.proteins.activator.Activator;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -39,7 +41,12 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 		BooleanFieldEditor methodEGAAC = new BooleanFieldEditor(METHOD_EGAAC, "EGAAC",
 				getFieldEditorParent());
 		addField(methodEGAAC);
-	}
+		
+//		DoubleScaleFieldEditor autoEqualFieldEditor = new DoubleScaleFieldEditor(
+//				PreferencesHelper.AUTOMATIC_EQUAL_THRESHOLD, "Minimum percentage for automatic equal: ",
+//				getFieldEditorParent());
+//		addField(autoEqualFieldEditor);
+		}
 
 	@Override
 	public void init(IWorkbench workbench) {
