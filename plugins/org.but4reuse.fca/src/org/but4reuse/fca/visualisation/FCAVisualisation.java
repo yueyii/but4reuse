@@ -6,7 +6,9 @@ import java.io.IOException;
 import org.but4reuse.adaptedmodel.AdaptedModel;
 import org.but4reuse.adaptedmodel.helpers.AdaptedModelHelper;
 import org.but4reuse.adaptedmodel.manager.AdaptedModelManager;
+import org.but4reuse.fca.utils.ContextProtein;
 import org.but4reuse.fca.utils.FCAUtils;
+import org.but4reuse.fca.utils.GenarateHTMLProtein;
 import org.but4reuse.featurelist.FeatureList;
 import org.but4reuse.utils.workbench.WorkbenchUtils;
 import org.but4reuse.visualisation.IVisualisation;
@@ -45,17 +47,32 @@ public class FCAVisualisation implements IVisualisation {
 
 		// Save conceptLattice
 		Context fc = FCAUtils.createArtefactsBlocksFormalContext(adaptedModel);
+		//creat html for protein
+		ContextProtein fcProtein = FCAUtils.createArtefactsBlocksFormalContextProtein(adaptedModel);
+		
 		ConceptOrder cl = FCAUtils.createConceptLattice(fc);
+		
 		// Save
 		File file = new File(folder, name + "_artefactsBlocksConceptLattice.dot");
 		File fil = new File(folder, name + "_artefactsBlocks.html");
+		
+		//new file for protein
+		File filProtein = new File(folder, name + "_artefactsBlocksProtein.html");
+		
 		GenerateDot dot = new GenerateDot(cl);
 		GenerateHTML html = new GenerateHTML(fc);
+		// new html for protein
+		GenarateHTMLProtein htmlprotein = new GenarateHTMLProtein(fcProtein);
+		
 		dot.generateCode();
 		html.generateCode();
+		htmlprotein.generateCode();
+		
 		try {
 			dot.toFile(file.getAbsolutePath());
 			html.toFile(fil.getAbsolutePath());
+			//protein
+			htmlprotein.toFile(filProtein.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -94,4 +111,6 @@ public class FCAVisualisation implements IVisualisation {
 		// export is on prepare method
 	}
 
+	
+	
 }

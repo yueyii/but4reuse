@@ -34,6 +34,7 @@ public class PreferencesHelper {
 		return prefs.getDouble(AUTOMATIC_EQUAL_THRESHOLD, 1.00);
 	}
 
+	
 	public static double getManualEqualThreshold() {
 		return prefs.getDouble(ASK_USER_THRESHOLD, 0.9);
 	}

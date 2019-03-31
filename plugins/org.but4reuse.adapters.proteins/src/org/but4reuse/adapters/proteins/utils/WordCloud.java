@@ -4,7 +4,6 @@ import java.util.HashMap;
 public class WordCloud {
 	//static ArrayList <ArrayList<Integer>> elems= new ArrayList<>();
 	static int elems[][];
-	static boolean[][] visited;
 	public static HashMap<Character, Integer> keyvalue;
 
 	/* 5 group's position index

@@ -13,7 +13,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(ProteinsAdapterPreferencePage.METHOD_CKSAAP, false);
 		store.setDefault(ProteinsAdapterPreferencePage.METHOD_EAAC, false);
 		store.setDefault(ProteinsAdapterPreferencePage.METHOD_EGAAC, false);
-		
+		store.setDefault(ProteinsAdapterPreferencePage.PERCENTAGE, false);
 	}
 
 }

@@ -1,12 +1,17 @@
 package org.but4reuse.fca.utils;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.but4reuse.adaptedmodel.AdaptedArtefact;
 import org.but4reuse.adaptedmodel.AdaptedModel;
 import org.but4reuse.adaptedmodel.Block;
 import org.but4reuse.adaptedmodel.helpers.AdaptedModelHelper;
+import org.but4reuse.adapters.ui.xmlgenerator.ArtefactData;
+import org.but4reuse.adapters.ui.xmlgenerator.BlockData;
 import org.but4reuse.artefactmodel.Artefact;
 import org.but4reuse.featurelist.Feature;
 import org.but4reuse.featurelist.FeatureList;
@@ -55,7 +60,7 @@ public class FCAUtils {
 		// Add pairs
 		for (AdaptedArtefact aa : adaptedModel.getOwnedAdaptedArtefacts()) {
 			for (Block block : AdaptedModelHelper.getBlocksOfAdaptedArtefact(aa)) {
-				fc.addPair(fc.getEntity(aa.getArtefact().getName()), blockNameMap.get(block.getName()));
+				fc.addPair(new Entity(aa.getArtefact().getName()), blockNameMap.get(block.getName()));
 			}
 		}
 
@@ -95,6 +100,93 @@ public class FCAUtils {
 			}
 		}
 
+		return fc;
+	}
+
+	//for adapterProtein
+	private static Map<BlockData, List<ArtefactData>> block_stats_reuse;
+
+	public static String getPercentage(String blockName,String aretefactName) {
+		String result = "";
+		double value=0;
+		DecimalFormat df = new DecimalFormat("#.####");
+		for (BlockData n: block_stats_reuse.keySet()) {
+			if(n.getName()==blockName) {
+				for(ArtefactData ad : block_stats_reuse.get(n)) {
+					if(ad.getName()==aretefactName) {
+						value = n.getNbElem()*1.0/ad.getNb_elems()*100;
+						result= String.valueOf(df.format(value));
+					}
+				}
+			}
+		}
+		return result;	
+	}
+
+
+	public static ContextProtein createArtefactsBlocksFormalContextProtein(AdaptedModel adaptedModel) {
+
+		// Creates a formal context
+		ContextProtein fc = new ContextProtein();
+		block_stats_reuse = new  HashMap<BlockData, List<ArtefactData>>();
+
+		List<String> artefactsName = new ArrayList<String>();
+		for(AdaptedArtefact aa : adaptedModel.getOwnedAdaptedArtefacts()) {
+			artefactsName.add(AdaptedModelHelper.getArtefactName(aa.getArtefact()));	
+		}
+
+		for(Block b : adaptedModel.getOwnedBlocks()) {
+			List<ArtefactData> listData = new ArrayList<ArtefactData>();
+			for(int i=0 ; i< adaptedModel.getOwnedAdaptedArtefacts().size(); i++) {
+				AdaptedArtefact aa =  adaptedModel.getOwnedAdaptedArtefacts().get(i);
+				if( AdaptedModelHelper.getBlocksOfAdaptedArtefact(aa).contains(b) ) {
+					List<Block> aa_block = AdaptedModelHelper.getBlocksOfAdaptedArtefact(aa);
+
+					listData.add(
+							new ArtefactData(aa_block.size(),
+									AdaptedModelHelper.getElementsOfBlocks(aa_block).size(),
+									artefactsName.get(i),
+									aa)
+							);
+				}
+				block_stats_reuse.put(new BlockData(b.getName(), AdaptedModelHelper.getElementsOfBlock(b)), listData);
+
+			}
+		}
+
+		// Creates an entity per artefact
+		for (AdaptedArtefact aa : adaptedModel.getOwnedAdaptedArtefacts()) {
+			Entity ent = new Entity(aa.getArtefact().getName());
+			fc.addEntity(ent);
+		}
+
+		Map<String, BinaryAttribute> blockNameMap = new HashMap<String, BinaryAttribute>();
+	
+		// Creates a binary attribute per block
+		for (Block block : adaptedModel.getOwnedBlocks()) {
+			BinaryAttribute attr = new BinaryAttribute(block.getName());
+			fc.addAttribute(attr);
+			blockNameMap.put(block.getName(), attr);
+		}
+
+		//create a binary attribute for average
+		int compteur=0;
+		float total=0;
+		BinaryAttribute average = new BinaryAttribute("Average");
+		fc.addAttribute(average);
+		
+		// Add pairs
+		for (AdaptedArtefact aa : adaptedModel.getOwnedAdaptedArtefacts()) {
+			for (Block block : AdaptedModelHelper.getBlocksOfAdaptedArtefact(aa)) {
+				fc.addPair(fc.getEntity(aa.getArtefact().getName())
+						, blockNameMap.get(block.getName()),getPercentage(block.getName(),aa.getArtefact().getName())
+						);
+				total+=Float.valueOf(getPercentage(block.getName(),aa.getArtefact().getName()));
+				compteur++;
+			}	
+			//for calculate average
+			fc.addPair(fc.getEntity(aa.getArtefact().getName()),average,String.valueOf(total/compteur));	
+		}
 		return fc;
 	}
 

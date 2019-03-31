@@ -22,5 +22,8 @@
             name="Formal Context Analysis visualisations exporter">
       </visualisation>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+   </extension>
 
 </plugin>

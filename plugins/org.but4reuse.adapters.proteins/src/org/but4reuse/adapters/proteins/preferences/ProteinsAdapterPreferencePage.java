@@ -1,8 +1,8 @@
 package org.but4reuse.adapters.proteins.preferences;
 
-import org.but4reuse.utils.ui.preferences.DoubleScaleFieldEditor;
 import org.but4reuse.adapters.preferences.PreferencesHelper;
 import org.but4reuse.adapters.proteins.activator.Activator;
+import org.but4reuse.adapters.proteins.utils.DoubleScaleFieldEditorProtein;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
@@ -14,6 +14,7 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 	public static final String METHOD_CKSAAP = "METHOD_CKSAAP";
 	public static final String METHOD_EAAC = "METHOD_EAAC";
 	public static final String METHOD_EGAAC = "METHOD_EGAAC";
+	public static final String PERCENTAGE = "PERCENTAGE";
 	
 	public ProteinsAdapterPreferencePage() {
 		super(GRID);
@@ -42,10 +43,10 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 				getFieldEditorParent());
 		addField(methodEGAAC);
 		
-//		DoubleScaleFieldEditor autoEqualFieldEditor = new DoubleScaleFieldEditor(
-//				PreferencesHelper.AUTOMATIC_EQUAL_THRESHOLD, "Minimum percentage for automatic equal: ",
-//				getFieldEditorParent());
-//		addField(autoEqualFieldEditor);
+		DoubleScaleFieldEditorProtein autoEqualFieldEditor = new DoubleScaleFieldEditorProtein(
+				PreferencesHelper.AUTOMATIC_EQUAL_THRESHOLD, "Minimum percentage for automatic equal: ",
+				getFieldEditorParent());
+		addField(autoEqualFieldEditor);
 		}
 
 	@Override

@@ -28,6 +28,7 @@ public class SimilarityPreferencePage extends FieldEditorPreferencePage implemen
 				PreferencesHelper.AUTOMATIC_EQUAL_THRESHOLD, "Minimum percentage for automatic equal: ",
 				getFieldEditorParent());
 		addField(autoEqualFieldEditor);
+		
 		// threshold to ask users. manual similarity
 		BooleanFieldEditor bfe = new BooleanFieldEditor(PreferencesHelper.ASK_USER, "Ask me in case of doubt",
 				getFieldEditorParent());

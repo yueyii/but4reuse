@@ -25,8 +25,8 @@ public class ProteinElement extends AbstractElement {
 
 	@Override
 	public String getText() {
-		String text = letter 
-				+frequency;
+		String text = "ProteinElement :"+ letter + ""+ 
+				"Frequency :"+frequency;
 		return text;
 	}
 
@@ -65,11 +65,12 @@ public class ProteinElement extends AbstractElement {
 		elems = WordCloud.frequencyTable(letter,frequency);
 		for(int position =0;position< 5; position++) {
 			for(int index =0;index< 5;index++) {
+				//check if the element exist 
 				if(elems[position][index]!=-1) {
 					int fre = elems[position][index];
 					for(int k=0 ; k < fre ;k++) {
-						String positionS=position+"";
-						words.add(WordCloud.getKey(WordCloud.keyvalue,index)+positionS);
+						String positionStr=position+"";
+						words.add(WordCloud.getKey(WordCloud.keyvalue,index)+positionStr);
 					}
 				}
 			}		
