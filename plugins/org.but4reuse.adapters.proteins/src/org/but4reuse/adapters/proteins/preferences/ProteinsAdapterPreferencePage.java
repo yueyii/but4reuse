@@ -1,8 +1,9 @@
 package org.but4reuse.adapters.proteins.preferences;
 
-import org.but4reuse.adapters.preferences.PreferencesHelper;
 import org.but4reuse.adapters.proteins.activator.Activator;
-import org.but4reuse.adapters.proteins.utils.DoubleScaleFieldEditorProtein;
+import org.but4reuse.utils.ui.preferences.DoubleScaleFieldEditorProtein;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
@@ -14,16 +15,32 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 	public static final String METHOD_CKSAAP = "METHOD_CKSAAP";
 	public static final String METHOD_EAAC = "METHOD_EAAC";
 	public static final String METHOD_EGAAC = "METHOD_EGAAC";
-	public static final String PERCENTAGE = "PERCENTAGE";
-	
+	public static final String AUTOMATIC_EQUAL_THRESHOLD_PROTEIN = "automatic_threshold_protein";
+
 	public ProteinsAdapterPreferencePage() {
 		super(GRID);
+		//setPreferenceStore(PreferencesHelper.getPreferenceStore());
 		this.setPreferenceStore(Activator.getDefault().getPreferenceStore());
 	}
 
 	/**
 	 * Creates the field editors.
 	 */
+	
+	static IEclipsePreferences prefs = InstanceScope.INSTANCE
+			.getNode(Activator.getDefault().getBundle().getSymbolicName());
+
+	public static boolean isOnlyIdenticalMode() { 
+		if (getAutomaticEqualThresholdProtein() == 1) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static double getAutomaticEqualThresholdProtein() {
+		return prefs.getDouble(AUTOMATIC_EQUAL_THRESHOLD_PROTEIN, 0.00);
+	}
+	
 	public void createFieldEditors() {
 		// This is to be used at your own risk. Use it if you are sure that the
 		// matching is based on ids
@@ -44,7 +61,7 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 		addField(methodEGAAC);
 		
 		DoubleScaleFieldEditorProtein autoEqualFieldEditor = new DoubleScaleFieldEditorProtein(
-				PreferencesHelper.AUTOMATIC_EQUAL_THRESHOLD, "Minimum percentage for automatic equal: ",
+				AUTOMATIC_EQUAL_THRESHOLD_PROTEIN, "Minimum percentage for automatic equal: ",
 				getFieldEditorParent());
 		addField(autoEqualFieldEditor);
 		}

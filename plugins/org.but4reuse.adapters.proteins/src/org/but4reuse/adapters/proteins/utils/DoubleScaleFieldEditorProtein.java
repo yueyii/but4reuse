@@ -1,6 +1,6 @@
 package org.but4reuse.adapters.proteins.utils;
 
-import org.eclipse.jface.preference.FieldEditor;
+import org.but4reuse.utils.ui.preferences.DoubleScaleFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Text;
  *         This is a double editor which give a give a double between 0 and 1.
  *         There is a scale control and a text control for choosing the number.
  */
-public class DoubleScaleFieldEditorProtein extends FieldEditor {
+public class DoubleScaleFieldEditorProtein extends DoubleScaleFieldEditor {
 
 	private double value = 0.5;
 	private Composite parent;
@@ -73,9 +73,10 @@ public class DoubleScaleFieldEditorProtein extends FieldEditor {
 		scale = new Scale(parent, SWT.HORIZONTAL);
 		scale.setMaximum(10);
 		scale.setMinimum(0);
-		scale.setPageIncrement(10);
-		scale.setIncrement(1);
+		scale.setPageIncrement(1);
+		scale.setIncrement((int)0.1);
 		scale.setLayoutData(data);
+		//scale.setSelection((int) value);
 		scale.setSelection((int) (value * 100));
 
 		data = new GridData();
@@ -160,7 +161,7 @@ public class DoubleScaleFieldEditorProtein extends FieldEditor {
 								text.setText("0.00");
 								return;
 							} else if (d > 1) {
-								text.setText("1.00");
+								text.setText("0.10");
 								return;
 							}
 							value = d;
@@ -194,7 +195,7 @@ public class DoubleScaleFieldEditorProtein extends FieldEditor {
 							e.text = "0.00";
 						} else if (d > 1) {
 							d = 1;
-							e.text = "1.00";
+							e.text = "0.10";
 						}
 						value = d;
 						scale.setSelection((int) (value * 100));

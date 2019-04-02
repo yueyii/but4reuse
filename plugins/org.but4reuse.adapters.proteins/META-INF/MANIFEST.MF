@@ -13,3 +13,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: BUT4Reuse
 Bundle-ActivationPolicy: lazy
 Import-Package: org.but4reuse.adapters.ui.xmlgenerator
+Export-Package: org.but4reuse.adapters.proteins.activator,
+ org.but4reuse.adapters.proteins.preferences

@@ -8,7 +8,6 @@ import org.w3c.dom.Document;
 import org.but4reuse.adapters.ui.xmlgenerator.SaveDataUtils;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
-import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 
 public class AnalyseXML{
@@ -43,7 +42,7 @@ public class AnalyseXML{
 					// get attributes names and values
 					NamedNodeMap nodeMap = tempNode.getAttributes();
 					for (int i = 0; i < nodeMap.getLength(); i++) {
-						Node node = nodeMap.item(i);
+						Node node = nodeMap.item( i);
 						System.out.println("yes"+node.getNodeValue());
 					}
 				}

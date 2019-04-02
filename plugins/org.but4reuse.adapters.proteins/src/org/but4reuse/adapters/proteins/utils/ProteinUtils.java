@@ -1,7 +1,7 @@
 package org.but4reuse.adapters.proteins.utils;
 
-import org.but4reuse.adapters.preferences.PreferencesHelper;
 import org.but4reuse.adapters.proteins.ProteinElement;
+import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
 public class ProteinUtils {
 	/**
 	 * Protein similarity 
@@ -15,14 +15,23 @@ public class ProteinUtils {
 		int times = c.getTimes();
 		double p1 = (double)(proteinElement.frequency)/times;
 		double p2 = (double)(proteinElement2.frequency)/times;
-		double automaticThreshold = PreferencesHelper.getAutomaticEqualThreshold();
-		
-		//if p1 bigger than p2, and if p1%percentage<=p2<=p1%(2-percentage), they are equal
-		if(Math.sqrt(Math.pow(p1-p2,2))<automaticThreshold){
-				return 1 ;
-			}
-			else{
+		double automaticThreshold = ProteinsAdapterPreferencePage.getAutomaticEqualThresholdProtein();
+
+		//if the automaticTHreshold is 0, just compare their frequency
+		if(automaticThreshold==0.00) {
+			if(p1==p2) {
+				return 1;	
+			}else {
 				return 0;
-			}	
+			}
+		// else if the automaticTHreshold is bigger than 0, we compare the value of |p1-p2| the automaticTHreshold
+		}else if(automaticThreshold!=0.00) {
+			if((Math.sqrt(Math.pow(p1-p2,2)))<automaticThreshold){
+				return 1 ;
+			}else{
+				return 0;
+			}
+		}
+		return 0;
 	}
 }
