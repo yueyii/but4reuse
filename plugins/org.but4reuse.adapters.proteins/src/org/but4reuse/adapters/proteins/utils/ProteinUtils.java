@@ -1,8 +1,34 @@
 package org.but4reuse.adapters.proteins.utils;
 
-import org.but4reuse.adapters.proteins.ProteinElement;
+import org.but4reuse.adapters.proteins.adapter.ProteinElement;
 import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
 public class ProteinUtils {
+	
+	public static final String[] PROTEIN_EXTENSIONS = { "*.txt", "*.xml" };
+
+	/**
+	 * Check if a file is an text or in fomal xml based on the extension
+	 * 
+	 * @param fileName
+	 * @return true if it is an proteinFile
+	 */
+	public static boolean isProteinFile(String fileName) {
+		int dot = fileName.lastIndexOf(".");
+		if (dot == -1) {
+			return false;
+		} else {
+			String fileExt = fileName.substring(dot, fileName.length());
+			for (String extension : PROTEIN_EXTENSIONS) {
+				// remove *
+				extension = extension.substring(1);
+				if (fileExt.equalsIgnoreCase(extension)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Protein similarity 
 	 * 
@@ -17,21 +43,10 @@ public class ProteinUtils {
 		double p2 = (double)(proteinElement2.frequency)/times;
 		double automaticThreshold = ProteinsAdapterPreferencePage.getAutomaticEqualThresholdProtein();
 
-		//if the automaticTHreshold is 0, just compare their frequency
-		if(automaticThreshold==0.00) {
-			if(p1==p2) {
-				return 1;	
-			}else {
-				return 0;
-			}
-		// else if the automaticTHreshold is bigger than 0, we compare the value of |p1-p2| the automaticTHreshold
-		}else if(automaticThreshold!=0.00) {
-			if((Math.sqrt(Math.pow(p1-p2,2)))<automaticThreshold){
-				return 1 ;
-			}else{
-				return 0;
-			}
+		if((Math.sqrt(Math.pow(p1-p2,2)))<=automaticThreshold){
+			return 1 ;
+		}else{
+			return 0;
 		}
-		return 0;
 	}
 }

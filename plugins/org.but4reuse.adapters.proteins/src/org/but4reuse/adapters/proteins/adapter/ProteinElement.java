@@ -1,13 +1,13 @@
-package org.but4reuse.adapters.proteins;
+package org.but4reuse.adapters.proteins.adapter;
 
 import java.util.ArrayList;
 import org.but4reuse.adapters.IElement;
+import org.but4reuse.adapters.proteins.adapter.ProteinElement;
 import org.but4reuse.adapters.proteins.methods.MethodAAC;
 import org.but4reuse.adapters.proteins.methods.MethodCKSAAP;
 import org.but4reuse.adapters.proteins.methods.MethodEAAC;
 import org.but4reuse.adapters.proteins.methods.MethodEGAAC;
 import org.but4reuse.adapters.impl.AbstractElement;
-import org.but4reuse.adapters.proteins.ProteinElement;
 import org.but4reuse.adapters.proteins.utils.ProteinUtils;
 import org.but4reuse.adapters.proteins.utils.WordCloud;
 
@@ -25,7 +25,7 @@ public class ProteinElement extends AbstractElement {
 
 	@Override
 	public String getText() {
-		String text = "ProteinElement :"+ letter + ""+ 
+		String text = "ProteinElement :"+ letter + " "+ 
 				"Frequency :"+frequency;
 		return text;
 	}

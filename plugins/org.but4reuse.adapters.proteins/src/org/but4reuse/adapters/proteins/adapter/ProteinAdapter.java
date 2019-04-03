@@ -1,4 +1,4 @@
-package org.but4reuse.adapters.proteins;
+package org.but4reuse.adapters.proteins.adapter;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.but4reuse.adapters.IAdapter;
 import org.but4reuse.adapters.IElement;
-import org.but4reuse.adapters.proteins.ProteinElement;
 import org.but4reuse.adapters.proteins.activator.Activator;
 import org.but4reuse.adapters.proteins.methods.Context;
 import org.but4reuse.adapters.proteins.methods.MethodAAC;
@@ -18,7 +17,7 @@ import org.but4reuse.adapters.proteins.methods.MethodCKSAAP;
 import org.but4reuse.adapters.proteins.methods.MethodEAAC;
 import org.but4reuse.adapters.proteins.methods.MethodEGAAC;
 import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
-import org.but4reuse.adapters.proteins.utils.AnalyseXML;
+import org.but4reuse.adapters.proteins.utils.ProteinUtils;
 import org.but4reuse.utils.files.FileUtils;
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -27,7 +26,7 @@ public class ProteinAdapter implements IAdapter {
 	@Override
 	public boolean isAdaptable(URI uri, IProgressMonitor monitor) {
 		File file = FileUtils.getFile(uri);
-		if (file != null && file.exists() && !file.isDirectory()) {
+		if (file != null && file.exists() && !file.isDirectory()&&ProteinUtils.isProteinFile(file.getName())) {
 			return true;
 		}
 		return false;
