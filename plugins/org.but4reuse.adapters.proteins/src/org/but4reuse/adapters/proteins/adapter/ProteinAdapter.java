@@ -36,6 +36,7 @@ public class ProteinAdapter implements IAdapter {
 	public List<IElement> adapt(URI uri, IProgressMonitor monitor) {
 		ArrayList<String> letters = new ArrayList<String>() ;
 		File file = FileUtils.getFile(uri);
+		//todo
 		try {
 			FileInputStream fstream = new FileInputStream(file);
 			DataInputStream in = new DataInputStream(fstream);
@@ -51,6 +52,7 @@ public class ProteinAdapter implements IAdapter {
 			}
 			in.close();
 		}
+		
 		catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,7 +75,7 @@ public class ProteinAdapter implements IAdapter {
 
 			return context.executeMethod(letters);
 		}
-		
+
 		
 		return null;
 	}

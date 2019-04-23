@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.but4reuse.adapters.IElement;
-import org.but4reuse.adapters.proteins.ProteinElement;
 import org.but4reuse.adapters.proteins.activator.Activator;
+import org.but4reuse.adapters.proteins.adapter.ProteinElement;
 import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
 
 public class MethodCKSAAP implements Methods{

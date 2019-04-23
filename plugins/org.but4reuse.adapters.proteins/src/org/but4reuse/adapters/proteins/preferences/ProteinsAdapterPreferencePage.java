@@ -1,11 +1,12 @@
 package org.but4reuse.adapters.proteins.preferences;
 
 import org.but4reuse.adapters.proteins.activator.Activator;
-import org.but4reuse.utils.ui.preferences.DoubleScaleFieldEditorProtein;
+import org.but4reuse.adapters.proteins.utils.DoubleScaleFieldEditorProtein;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -15,8 +16,12 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 	public static final String METHOD_CKSAAP = "METHOD_CKSAAP";
 	public static final String METHOD_EAAC = "METHOD_EAAC";
 	public static final String METHOD_EGAAC = "METHOD_EGAAC";
+	public static final String CREAT_HTML = "CREAT_HTML";
 	public static final String AUTOMATIC_EQUAL_THRESHOLD_PROTEIN = "automatic_threshold_protein";
-
+	public static final String FIRST_PROTEIN_FAMILY= "FIRST_PROTEIN_FAMILY";
+	public static final String SECOND_PROTEIN_FAMILY= "SECOND_PROTEIN_FAMILY";
+	public static final String THIRD_PROTEIN_FAMILY= "THIRD_PROTEIN_FAMILY";
+	
 	public ProteinsAdapterPreferencePage() {
 		super(GRID);
 		//setPreferenceStore(PreferencesHelper.getPreferenceStore());
@@ -60,10 +65,26 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 				getFieldEditorParent());
 		addField(methodEGAAC);
 		
+		BooleanFieldEditor creatHtml = new BooleanFieldEditor(CREAT_HTML, "Creat Html",
+				getFieldEditorParent());
+		addField(creatHtml);
+		
 		DoubleScaleFieldEditorProtein autoEqualFieldEditor = new DoubleScaleFieldEditorProtein(
 				AUTOMATIC_EQUAL_THRESHOLD_PROTEIN, "Minimum percentage for automatic equal: ",
 				getFieldEditorParent());
 		addField(autoEqualFieldEditor);
+		
+		StringFieldEditor sfefirst = new StringFieldEditor(FIRST_PROTEIN_FAMILY, "Number of protein in the first family :",
+				getFieldEditorParent());
+		addField(sfefirst);
+		
+		StringFieldEditor sfesecond = new StringFieldEditor(SECOND_PROTEIN_FAMILY, "Number of protein in the second family :",
+				getFieldEditorParent());
+		addField(sfesecond);
+		
+		StringFieldEditor sfethird = new StringFieldEditor(THIRD_PROTEIN_FAMILY, "Number of protein in the third family :",
+				getFieldEditorParent());
+		addField(sfethird);
 		}
 
 	@Override

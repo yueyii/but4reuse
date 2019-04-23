@@ -166,7 +166,7 @@
                class="org.but4reuse.adapters.ui.ConstructProteinHtmlAction"
                icon="icons/Scan.png"
                id="org.but4reuse.adapters.ui.constructproteinhtmlaction"
-               label="label"
+               label="protein scanner"
                style="push"
                toolbarPath="additions">
          </action>
