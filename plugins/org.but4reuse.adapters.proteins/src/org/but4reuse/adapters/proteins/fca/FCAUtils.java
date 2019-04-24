@@ -20,70 +20,30 @@ import fr.labri.galatea.Entity;
 public class FCAUtils {
 	//for adapterProtein
 	private static Map<BlockData, List<ArtefactData>> block_stats_reuse;
-	private static ArrayList<String> proteinlist;
-	private static ArrayList<String> secondproteinlist;
-	private static ArrayList<String> thirdproteinlist;
+	private static Map<String, List<String>> train_name;
+
+	private static ArrayList<String> train_proteinlist;
+
 	static String str;
-	static int count = 1;
-	
-//	public static String getPercentage(String blockName,String aretefactName) {
-//		String result = "";
-//		double value=0;
-//		double valueWithProportion=0;
-//		//int nbProtein = AdaptedModelManager.getAdaptedModel().getOwnedAdaptedArtefacts().size();
-//		DecimalFormat df = new DecimalFormat("#.####");
-//		for (BlockData n: block_stats_reuse.keySet()) {
-//			if(n.getName()==blockName) {
-//				int count = block_stats_reuse.get(n).size();
-//				for(ArtefactData ad : block_stats_reuse.get(n)) {
-//					if(ad.getName()==aretefactName) {
-//						double proportion = Math.pow(2,count);
-//						//write down the proportion of proteins which are in the same family
-//						//proportionList.put(blockName, proportion);
-//						value = n.getNbElem()*1.0/ad.getNb_elems()*100;
-//						valueWithProportion=value*proportion;	
-//						result = String.valueOf(df.format(valueWithProportion));
-//					}
-//				}
-//			}
-//		}
-//		return result;	
-//	}
+	static int count = 0;
 
 	public static String getPercentage(String blockName,String aretefactName) {
 		String result = "";
 		double value=0;
 		double valueWithProportion=0;
+
 		//int nbProtein = AdaptedModelManager.getAdaptedModel().getOwnedAdaptedArtefacts().size();
 		DecimalFormat df = new DecimalFormat("#.####");
 		for (BlockData n: block_stats_reuse.keySet()) {
-			//if there is the protein in diffrent familiy
-			if(n.getName()==blockName && proteinlist.contains(blockName)) {
-				//then we dont count it into poid
-				int count = block_stats_reuse.get(n).size()-1;
+			int count=0;
+			if(n.getName()==blockName) {
+				if(train_name.containsKey(blockName)) {
+					count = train_name.get(blockName).size();
+				} 
 				for(ArtefactData ad : block_stats_reuse.get(n)) {
 					if(ad.getName()==aretefactName){
-						double proportion=0;
-						if(count==0) {
-							proportion=0;
-						}else {
-							proportion = Math.pow(2,count);
-						}
 						value = n.getNbElem()*1.0/ad.getNb_elems()*100;
-						valueWithProportion=value*proportion;	
-						result = String.valueOf(df.format(valueWithProportion));
-					}
-				}
-			}
-			//if there is not the protein in diffrent familiy
-			else if(n.getName()==blockName && !proteinlist.contains(blockName)) {
-				System.out.println("blockName"+blockName);
-				int count = block_stats_reuse.get(n).size();
-				for(ArtefactData ad : block_stats_reuse.get(n)) {
-					if(ad.getName()==aretefactName) {
-						double proportion = Math.pow(2,count);
-						value = n.getNbElem()*1.0/ad.getNb_elems()*100;
-						valueWithProportion=value*proportion;	
+						valueWithProportion=value*count;	
 						result = String.valueOf(df.format(valueWithProportion));
 					}
 				}
@@ -91,50 +51,54 @@ public class FCAUtils {
 		}
 		return result;	
 	}
-	
+
 	public static ContextProtein createArtefactsBlocksFormalContextProtein(AdaptedModel adaptedModel) {
-		//todo
-		String first = Activator.getDefault().getPreferenceStore()
-		.getString(ProteinsAdapterPreferencePage.FIRST_PROTEIN_FAMILY);
-		
-		String second = Activator.getDefault().getPreferenceStore()
-		.getString(ProteinsAdapterPreferencePage.SECOND_PROTEIN_FAMILY);
-		
-		String third = Activator.getDefault().getPreferenceStore()
-		.getString(ProteinsAdapterPreferencePage.THIRD_PROTEIN_FAMILY);
-		
+		String train = Activator.getDefault().getPreferenceStore()
+				.getString(ProteinsAdapterPreferencePage.TRAIN_PROTEIN_FAMILY);
+
 		// Creates a formal context
 		ContextProtein fc = new ContextProtein();
 		block_stats_reuse = new  HashMap<BlockData, List<ArtefactData>>();
-
 		List<String> artefactsName = new ArrayList<String>();
-		proteinlist = new ArrayList<String>(); 
-		
+		train_proteinlist = new ArrayList<String>(); 
+		train_name = new HashMap<>();
+		int nb_train = Integer.valueOf(train);
+
 		for(AdaptedArtefact aa : adaptedModel.getOwnedAdaptedArtefacts()) {
-			if(count==adaptedModel.getOwnedAdaptedArtefacts().size()) {
-				str= AdaptedModelHelper.getArtefactName(aa.getArtefact());
+			String proteinName=AdaptedModelHelper.getArtefactName(aa.getArtefact());
+			if(count<nb_train) {
+				train_proteinlist.add(proteinName);
 			}
 			artefactsName.add(AdaptedModelHelper.getArtefactName(aa.getArtefact()));	
-			count ++;
+			count++;
 		}
 
 		for(Block b : adaptedModel.getOwnedBlocks()) {
 			List<ArtefactData> listData = new ArrayList<ArtefactData>();
+			ArrayList<String> proteinlist = new ArrayList<>() ;
 
 			for(int i=0 ; i< adaptedModel.getOwnedAdaptedArtefacts().size(); i++) {	
 				AdaptedArtefact aa =  adaptedModel.getOwnedAdaptedArtefacts().get(i);			
+
 				if( AdaptedModelHelper.getBlocksOfAdaptedArtefact(aa).contains(b)) {
 					List<Block> aa_block = AdaptedModelHelper.getBlocksOfAdaptedArtefact(aa);
-					if(artefactsName.get(i)==str) {
-						proteinlist.add(b.getName());
-					}
+
 					listData.add(
 							new ArtefactData(aa_block.size(),
 									AdaptedModelHelper.getElementsOfBlocks(aa_block).size(),
 									artefactsName.get(i),
 									aa)
 							);
+
+					if(train_proteinlist.contains(artefactsName.get(i))) {
+						if(!train_name.containsKey(b.getName())
+								||!train_name.get(b.getName()).contains(artefactsName.get(i))) {
+							proteinlist.add(artefactsName.get(i));
+						}
+					}
 				}
+
+				train_name.put(b.getName(), proteinlist);
 				block_stats_reuse.put(new BlockData(b.getName(), AdaptedModelHelper.getElementsOfBlock(b)), listData);
 			}
 		}
@@ -166,7 +130,7 @@ public class FCAUtils {
 				fc.addPair(fc.getEntity(aa.getArtefact().getName())
 						, blockNameMap.get(block.getName()),getPercentage(block.getName(),aa.getArtefact().getName())
 						);
-				
+
 				total+=Float.valueOf(getPercentage(block.getName(),aa.getArtefact().getName()));
 				//compteur++;
 			}	

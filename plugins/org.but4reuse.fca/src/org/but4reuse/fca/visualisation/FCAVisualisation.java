@@ -48,7 +48,7 @@ public class FCAVisualisation implements IVisualisation {
 		// Save conceptLattice
 		Context fc = FCAUtils.createArtefactsBlocksFormalContext(adaptedModel);
 		//creat html for protein
-		ContextProtein fcProtein = FCAUtils.createArtefactsBlocksFormalContextProtein(adaptedModel);
+	//	ContextProtein fcProtein = FCAUtils.createArtefactsBlocksFormalContextProtein(adaptedModel);
 		
 		ConceptOrder cl = FCAUtils.createConceptLattice(fc);
 		
@@ -57,22 +57,22 @@ public class FCAVisualisation implements IVisualisation {
 		File fil = new File(folder, name + "_artefactsBlocks.html");
 		
 		//new file for protein
-		File filProtein = new File(folder, name + "_artefactsBlocksProtein.html");
+	//	File filProtein = new File(folder, name + "_artefactsBlocksProtein.html");
 		
 		GenerateDot dot = new GenerateDot(cl);
 		GenerateHTML html = new GenerateHTML(fc);
 		// new html for protein
-		GenarateHTMLProtein htmlprotein = new GenarateHTMLProtein(fcProtein);
+	//	GenarateHTMLProtein htmlprotein = new GenarateHTMLProtein(fcProtein);
 		
 		dot.generateCode();
 		html.generateCode();
-		htmlprotein.generateCode();
+	//	htmlprotein.generateCode();
 		
 		try {
 			dot.toFile(file.getAbsolutePath());
 			html.toFile(fil.getAbsolutePath());
 			//protein
-			htmlprotein.toFile(filProtein.getAbsolutePath());
+	//		htmlprotein.toFile(filProtein.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

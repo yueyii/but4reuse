@@ -15,9 +15,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(ProteinsAdapterPreferencePage.METHOD_EGAAC, true);
 		store.setDefault(ProteinsAdapterPreferencePage.CREAT_HTML, true);
 		store.setDefault(ProteinsAdapterPreferencePage.AUTOMATIC_EQUAL_THRESHOLD_PROTEIN, 0.00);
-		store.setDefault(ProteinsAdapterPreferencePage.FIRST_PROTEIN_FAMILY, "first_protein_family");
-		store.setDefault(ProteinsAdapterPreferencePage.SECOND_PROTEIN_FAMILY, "second_protein_family");
-		store.setDefault(ProteinsAdapterPreferencePage.THIRD_PROTEIN_FAMILY, "third_protein_family");
+		store.setDefault(ProteinsAdapterPreferencePage.TRAIN_PROTEIN_FAMILY, "train_protein_family");
+
 	}
 
 }

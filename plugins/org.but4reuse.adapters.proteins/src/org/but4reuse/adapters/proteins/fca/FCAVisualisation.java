@@ -8,9 +8,6 @@ import org.but4reuse.adaptedmodel.helpers.AdaptedModelHelper;
 import org.but4reuse.adaptedmodel.manager.AdaptedModelManager;
 import org.but4reuse.adapters.proteins.activator.Activator;
 import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
-import org.but4reuse.fca.utils.ContextProtein;
-import org.but4reuse.fca.utils.FCAUtils;
-import org.but4reuse.fca.utils.GenarateHTMLProtein;
 import org.but4reuse.featurelist.FeatureList;
 import org.but4reuse.utils.workbench.WorkbenchUtils;
 import org.but4reuse.visualisation.IVisualisation;
@@ -22,19 +19,19 @@ public class FCAVisualisation implements IVisualisation {
 
 	@Override
 	public void prepare(FeatureList featureList, AdaptedModel adaptedModel, Object extra, IProgressMonitor monitor) {
+
+
+		monitor.subTask("Saving formal context analysis visualisations");
+		// Here we try to find the folder to save it
+		IContainer output = AdaptedModelManager.getDefaultOutput();
+		File outputFile = WorkbenchUtils.getFileFromIResource(output);
+		String name = AdaptedModelHelper.getName(adaptedModel);
+		if (name == null) {
+			name = "default";
+		}
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.CREAT_HTML)){
-
-			monitor.subTask("Saving formal context analysis visualisations");
-			// Here we try to find the folder to save it
-			IContainer output = AdaptedModelManager.getDefaultOutput();
-			File outputFile = WorkbenchUtils.getFileFromIResource(output);
-			String name = AdaptedModelHelper.getName(adaptedModel);
-			if (name == null) {
-				name = "default";
-			}
-
 			// create folder
-			File folder = new File(outputFile, "formalContextAnalysis");
+			File folder = new File(outputFile, "proteinAnalysis");
 			folder.mkdir();
 
 			//creat html for protein
@@ -53,10 +50,11 @@ public class FCAVisualisation implements IVisualisation {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			// Refresh
-			WorkbenchUtils.refreshIResource(output);
 		}
+
+		// Refresh
+		WorkbenchUtils.refreshIResource(output);
+
 	}
 	@Override
 	public void show() {

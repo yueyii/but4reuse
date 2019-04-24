@@ -18,9 +18,7 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 	public static final String METHOD_EGAAC = "METHOD_EGAAC";
 	public static final String CREAT_HTML = "CREAT_HTML";
 	public static final String AUTOMATIC_EQUAL_THRESHOLD_PROTEIN = "automatic_threshold_protein";
-	public static final String FIRST_PROTEIN_FAMILY= "FIRST_PROTEIN_FAMILY";
-	public static final String SECOND_PROTEIN_FAMILY= "SECOND_PROTEIN_FAMILY";
-	public static final String THIRD_PROTEIN_FAMILY= "THIRD_PROTEIN_FAMILY";
+	public static final String TRAIN_PROTEIN_FAMILY= "TRAIN_PROTEIN_FAMILY";
 	
 	public ProteinsAdapterPreferencePage() {
 		super(GRID);
@@ -74,17 +72,10 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 				getFieldEditorParent());
 		addField(autoEqualFieldEditor);
 		
-		StringFieldEditor sfefirst = new StringFieldEditor(FIRST_PROTEIN_FAMILY, "Number of protein in the first family :",
+		StringFieldEditor sfefirst = new StringFieldEditor(TRAIN_PROTEIN_FAMILY, "Number of protein in the first family :",
 				getFieldEditorParent());
 		addField(sfefirst);
-		
-		StringFieldEditor sfesecond = new StringFieldEditor(SECOND_PROTEIN_FAMILY, "Number of protein in the second family :",
-				getFieldEditorParent());
-		addField(sfesecond);
-		
-		StringFieldEditor sfethird = new StringFieldEditor(THIRD_PROTEIN_FAMILY, "Number of protein in the third family :",
-				getFieldEditorParent());
-		addField(sfethird);
+
 		}
 
 	@Override

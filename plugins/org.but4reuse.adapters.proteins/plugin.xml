@@ -30,5 +30,12 @@
             class="org.but4reuse.adapters.proteins.preferences.PreferenceInitializer">
       </initializer>
    </extension>
+   <extension
+         point="org.but4reuse.visualisation">
+      <visualisation
+            class="org.but4reuse.adapters.proteins.fca.FCAVisualisation"
+            name="Formal Context Analysis visualisations exporter">
+      </visualisation>
+   </extension>
 
 </plugin>
