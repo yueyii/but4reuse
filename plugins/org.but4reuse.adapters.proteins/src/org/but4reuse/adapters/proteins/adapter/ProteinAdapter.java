@@ -47,7 +47,9 @@ public class ProteinAdapter implements IAdapter {
 			while ((strLetter = br.readLine()) != null) {
 				myStringBuilder.append(strLetter);
 			}
-			for(Character p : myStringBuilder.toString().toCharArray()){
+			
+			//change to uppercase letter if the letter is lower case letter
+			for(Character p : myStringBuilder.toString().toUpperCase().toCharArray()){
 				letters.add(p.toString());
 			}
 			in.close();

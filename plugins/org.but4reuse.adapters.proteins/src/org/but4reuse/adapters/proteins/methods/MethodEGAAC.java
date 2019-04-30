@@ -12,7 +12,7 @@ public class MethodEGAAC implements Methods {
 	public List<IElement> method(ArrayList<String> StrLetters) {
 		ArrayList<String> str = new ArrayList<String>();
 		String[] g = { "GAVLMI","FYW","KRN", "DE" ,"STCPNQ"};
-
+		
 		for(int i=0; i<StrLetters.size();i++){
 			for(int j=0 ; j < g.length; j++){
 				if(g[j].contains(StrLetters.get(i))){
