@@ -159,17 +159,5 @@
                toolbarPath="additions">
          </action>
       </viewContribution>
-      <viewContribution
-            id="org.but4reuse.adapters.ui.constructproteinhtml"
-            targetID="org.eclipse.contribution.visualiser.views.Menu">
-         <action
-               class="org.but4reuse.adapters.ui.ConstructProteinHtmlAction"
-               icon="icons/Scan.png"
-               id="org.but4reuse.adapters.ui.constructproteinhtmlaction"
-               label="protein scanner"
-               style="push"
-               toolbarPath="additions">
-         </action>
-      </viewContribution>
       </extension>
 </plugin>

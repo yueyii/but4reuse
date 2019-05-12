@@ -4,10 +4,10 @@ import org.but4reuse.adapters.proteins.adapter.ProteinElement;
 import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
 public class ProteinUtils {
 	
-	public static final String[] PROTEIN_EXTENSIONS = { "*.txt", "*.xml" };
+	public static final String[] PROTEIN_EXTENSIONS = { "*.txt", "*.fasta", "*.train","*.test" };
 
 	/**
-	 * Check if a file is an text or in fomal xml based on the extension
+	 * Check if a file is an text or in fomal fasta based on the extension
 	 * 
 	 * @param fileName
 	 * @return true if it is an proteinFile
@@ -42,7 +42,6 @@ public class ProteinUtils {
 		double p1 = (double)(proteinElement.frequency)/times;
 		double p2 = (double)(proteinElement2.frequency)/times;
 		double automaticThreshold = ProteinsAdapterPreferencePage.getAutomaticEqualThresholdProtein();
-
 		if((Math.sqrt(Math.pow(p1-p2,2)))<=automaticThreshold){
 			return 1 ;
 		}else{

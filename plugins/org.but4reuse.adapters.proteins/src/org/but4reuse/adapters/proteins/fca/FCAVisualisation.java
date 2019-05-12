@@ -30,6 +30,7 @@ public class FCAVisualisation implements IVisualisation {
 			name = "default";
 		}
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.CREAT_HTML)){
+			long startTime=System.currentTimeMillis(); 
 			// create folder
 			File folder = new File(outputFile, "proteinAnalysis");
 			folder.mkdir();
@@ -50,6 +51,8 @@ public class FCAVisualisation implements IVisualisation {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			long endTime=System.currentTimeMillis(); 
+			System.out.println("run time get percentage total£º "+(endTime-startTime)+"ms");
 		}
 
 		// Refresh

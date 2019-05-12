@@ -34,6 +34,8 @@ public class FCAUtils {
 
 		//int nbProtein = AdaptedModelManager.getAdaptedModel().getOwnedAdaptedArtefacts().size();
 		DecimalFormat df = new DecimalFormat("#.####");
+
+		long startTime=System.currentTimeMillis();  	
 		for (BlockData n: block_stats_reuse.keySet()) {
 			int count=0;
 			if(n.getName()==blockName) {
@@ -49,10 +51,13 @@ public class FCAUtils {
 				}
 			}
 		}
+		long endTime=System.currentTimeMillis(); 
+		System.out.println("run time get percentage£º "+(endTime-startTime)+"ms");
 		return result;	
 	}
 
 	public static ContextProtein createArtefactsBlocksFormalContextProtein(AdaptedModel adaptedModel) {
+
 		String train = Activator.getDefault().getPreferenceStore()
 				.getString(ProteinsAdapterPreferencePage.TRAIN_PROTEIN_FAMILY);
 
@@ -64,6 +69,7 @@ public class FCAUtils {
 		train_name = new HashMap<>();
 		int nb_train = Integer.valueOf(train);
 
+	 	
 		for(AdaptedArtefact aa : adaptedModel.getOwnedAdaptedArtefacts()) {
 			String proteinName=AdaptedModelHelper.getArtefactName(aa.getArtefact());
 			if(count<nb_train) {
@@ -138,6 +144,7 @@ public class FCAUtils {
 			fc.addPair(fc.getEntity(aa.getArtefact().getName()),average,String.valueOf(total/100));	
 			total = 0; 
 		}
+
 		return fc;
 	}
 

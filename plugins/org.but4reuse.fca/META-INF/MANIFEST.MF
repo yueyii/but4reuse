@@ -18,6 +18,7 @@ Bundle-ClassPath: libs/galatea.jar,
  lib/org.apache.commons.logging.jar,
  .
 Export-Package: fr.labri.galatea,
+ fr.labri.galatea.io,
  org.but4reuse.fca.utils
 Bundle-Vendor: BUT4Reuse
 Import-Package: org.but4reuse.adapters.ui.xmlgenerator

@@ -17,6 +17,7 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 	public static final String METHOD_EAAC = "METHOD_EAAC";
 	public static final String METHOD_EGAAC = "METHOD_EGAAC";
 	public static final String CREAT_HTML = "CREAT_HTML";
+	public static final String CUT_FILE = "CUT_FILE";
 	public static final String AUTOMATIC_EQUAL_THRESHOLD_PROTEIN = "automatic_threshold_protein";
 	public static final String TRAIN_PROTEIN_FAMILY= "TRAIN_PROTEIN_FAMILY";
 	
@@ -66,6 +67,10 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 		BooleanFieldEditor creatHtml = new BooleanFieldEditor(CREAT_HTML, "Creat Html",
 				getFieldEditorParent());
 		addField(creatHtml);
+		
+		BooleanFieldEditor cutFile = new BooleanFieldEditor(CUT_FILE, "Cut a protein file to many txt file",
+				getFieldEditorParent());
+		addField(cutFile);
 		
 		DoubleScaleFieldEditorProtein autoEqualFieldEditor = new DoubleScaleFieldEditorProtein(
 				AUTOMATIC_EQUAL_THRESHOLD_PROTEIN, "Minimum percentage for automatic equal: ",
