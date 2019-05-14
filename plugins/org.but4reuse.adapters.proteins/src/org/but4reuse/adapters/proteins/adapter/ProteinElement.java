@@ -15,7 +15,10 @@ public class ProteinElement extends AbstractElement {
 
 	public String letter;
 	public int frequency;
-
+	private MethodAAC methodAAC = new MethodAAC();
+	private MethodCKSAAP methodCKSAAP = new MethodCKSAAP();
+	private MethodEAAC methodEAAC = new MethodEAAC();
+	private MethodEGAAC methodEGAAC = new MethodEGAAC();
 
 	//construtor
 	public ProteinElement(String letter,int frequency) {
@@ -42,10 +45,6 @@ public class ProteinElement extends AbstractElement {
 	public double similarity(IElement anotherElement) {
 		if (anotherElement instanceof ProteinElement) {
 			ProteinElement protein = (ProteinElement) anotherElement;
-			MethodAAC methodAAC = new MethodAAC();
-			MethodCKSAAP methodCKSAAP = new MethodCKSAAP();
-			MethodEAAC methodEAAC = new MethodEAAC();
-			MethodEGAAC methodEGAAC = new MethodEGAAC();
 			//if we choose methodAAC/methodCKSAAP/methodEAAC
 			if(methodAAC.activatorMethod()||methodCKSAAP.activatorMethod()
 					||methodEAAC.activatorMethod()||methodEGAAC.activatorMethod()){
@@ -61,25 +60,44 @@ public class ProteinElement extends AbstractElement {
 	@Override
 	public ArrayList<String> getWords() { 
 		ArrayList<String> words= new ArrayList<String>();
-		int[][] elems= new int[5][5]; 
-		elems = WordCloud.frequencyTable(letter,frequency);
-		for(int position =0;position< 5; position++) {
-			for(int index =0;index< 5;index++) {
-				//check if the element exist 
-				if(elems[position][index]!=-1) {
-					int fre = elems[position][index];
-					for(int k=0 ; k < fre ;k++) {
-						String positionStr=position+"";
-						words.add(WordCloud.getKey(WordCloud.keyvalue,index)+positionStr);
-					}
-				}
-			}		
+		int[][] elems;
+		int position_size;
+		int index_size;
+		//if we chose EGAAC
+		if(methodEGAAC.activatorMethod()){
+			elems= new int[5][5]; 
+			WordCloud.initEGAAC();
+			position_size=5;
+			index_size=5;
+			}
+		//else we choose other method
+		else {
+			elems= new int[5][20];
+			WordCloud.initOthers();
+			position_size=5;
+			index_size=20;	
 		}
-//		String name = letter.toString();
-//		String fre="" + frequency;
-//		name=name +":"+fre+" ";
-//		if (!name.equals("Erreur"))
-//			words.add(name);
+			//take the table witch stock the frequency
+			elems = WordCloud.frequencyTable(letter,frequency);
+			for(int position =0;position< position_size; position++) {
+				for(int index =0;index< index_size;index++) {
+					//check if the element has existed
+					if(elems[position][index]!=-1) {
+						int fre = elems[position][index];
+						
+						for(int k=0 ; k < fre ;k++) {
+							String positionStr=position+"";	
+							//write the amino acid and its position in the words to display
+							words.add(WordCloud.getKey(WordCloud.keyvalue,index)+positionStr);
+						}
+					}
+				}		
+			}
+//			String name = letter.toString();
+//			String fre="" + frequency;
+//			name=name +":"+fre+" ";
+//			if (!name.equals("Erreur"))
+//				words.add(name);
 		return words;
 	}
 }
