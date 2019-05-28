@@ -19,17 +19,19 @@ public class FCAVisualisation implements IVisualisation {
 
 	@Override
 	public void prepare(FeatureList featureList, AdaptedModel adaptedModel, Object extra, IProgressMonitor monitor) {
-
-
-		monitor.subTask("Saving formal context analysis visualisations");
-		// Here we try to find the folder to save it
-		IContainer output = AdaptedModelManager.getDefaultOutput();
-		File outputFile = WorkbenchUtils.getFileFromIResource(output);
-		String name = AdaptedModelHelper.getName(adaptedModel);
-		if (name == null) {
-			name = "default";
-		}
+		IContainer output;
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.CREAT_HTML)){
+			
+			monitor.subTask("Saving formal context analysis visualisations");
+			// Here we try to find the folder to save it
+			output = AdaptedModelManager.getDefaultOutput();
+			File outputFile = WorkbenchUtils.getFileFromIResource(output);
+			String name = AdaptedModelHelper.getName(adaptedModel);
+			
+			if (name == null) {
+				name = "default";
+			}
+
 			long startTime=System.currentTimeMillis(); 
 			// create folder
 			File folder = new File(outputFile, "proteinAnalysis");
@@ -53,12 +55,13 @@ public class FCAVisualisation implements IVisualisation {
 			}
 			long endTime=System.currentTimeMillis(); 
 			System.out.println("run time get percentage total£º "+(endTime-startTime)+"ms");
+			
+			// Refresh
+			WorkbenchUtils.refreshIResource(output);
 		}
-
-		// Refresh
-		WorkbenchUtils.refreshIResource(output);
-
+		
 	}
+
 	@Override
 	public void show() {
 		// export is on prepare method

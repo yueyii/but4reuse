@@ -38,6 +38,7 @@ public class WordCloud {
 		keyvalue.put('S', 4);
 	}
 	
+	//for other method expect method EGAAC
 	public static void initOthers() { 
 		//max size of an element is 5
 		//max 20 Amino acid

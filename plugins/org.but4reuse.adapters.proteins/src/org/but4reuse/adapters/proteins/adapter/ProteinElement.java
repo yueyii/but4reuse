@@ -48,7 +48,7 @@ public class ProteinElement extends AbstractElement {
 			//if we choose methodAAC/methodCKSAAP/methodEAAC
 			if(methodAAC.activatorMethod()||methodCKSAAP.activatorMethod()
 					||methodEAAC.activatorMethod()||methodEGAAC.activatorMethod()){
-				//compare the frequency of two elements in the diffrents proteins
+				//compare the frequency of two elements in the different proteins
 				if(this.letter.equals(protein.letter)){
 					return ProteinUtils.getProteinSimilarity(this,protein);
 				}

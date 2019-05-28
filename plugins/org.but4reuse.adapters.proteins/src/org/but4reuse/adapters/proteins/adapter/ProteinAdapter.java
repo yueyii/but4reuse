@@ -72,6 +72,9 @@ public class ProteinAdapter implements IAdapter {
 						else if(fileTyle.equals(".test")) {
 							fw = new FileWriter(folder+"/"+strLetter.substring(1)+".test");
 						}
+						else{
+							fw = new FileWriter(folder+"/"+strLetter.substring(1)+".txt");
+						}
 					}
 					else {
 						fw.append(strLetter + "\r\n");
@@ -101,15 +104,15 @@ public class ProteinAdapter implements IAdapter {
 			Context context = new Context(new MethodAAC());
 			return context.executeMethod(letters);
 		}
-		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_CKSAAP)){
+		else if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_CKSAAP)){
 			Context context = new Context(new MethodCKSAAP());
 			return context.executeMethod(letters);
 		}
-		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EAAC)){
+		else if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EAAC)){
 			Context context = new Context(new MethodEAAC());
 			return context.executeMethod(letters);
 		}
-		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EGAAC)){
+		else if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EGAAC)){
 			Context context = new Context(new MethodEGAAC());
 			return context.executeMethod(letters);
 		}		

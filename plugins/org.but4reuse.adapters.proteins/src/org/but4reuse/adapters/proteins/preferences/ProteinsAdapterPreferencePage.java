@@ -68,7 +68,7 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 				getFieldEditorParent());
 		addField(creatHtml);
 		
-		BooleanFieldEditor cutFile = new BooleanFieldEditor(CUT_FILE, "Cut a protein file to many txt file",
+		BooleanFieldEditor cutFile = new BooleanFieldEditor(CUT_FILE, "Cut a protein file to many files",
 				getFieldEditorParent());
 		addField(cutFile);
 		

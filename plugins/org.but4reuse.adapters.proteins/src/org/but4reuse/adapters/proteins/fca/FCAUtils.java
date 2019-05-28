@@ -23,29 +23,28 @@ public class FCAUtils {
 	private static Map<String, List<String>> train_name;
 
 	private static ArrayList<String> train_proteinlist;
-
+	private static String train = "";
 	static String str;
-	static int count = 0;
 
 	public static String getPercentage(String blockName,String aretefactName) {
 		String result = "";
 		double value=0;
 		double valueWithProportion=0;
-
-		//int nbProtein = AdaptedModelManager.getAdaptedModel().getOwnedAdaptedArtefacts().size();
+		
 		DecimalFormat df = new DecimalFormat("#.####");
 
 		long startTime=System.currentTimeMillis();  	
 		for (BlockData n: block_stats_reuse.keySet()) {
-			int count=0;
+			double countsize=0;
 			if(n.getName()==blockName) {
+				
 				if(train_name.containsKey(blockName)) {
-					count = train_name.get(blockName).size();
+					countsize = train_name.get(blockName).size();
 				} 
 				for(ArtefactData ad : block_stats_reuse.get(n)) {
 					if(ad.getName()==aretefactName){
-						value = n.getNbElem()*1.0/ad.getNb_elems()*100;
-						valueWithProportion=value*count;	
+						value = ((n.getNbElem()*1.0)/ad.getNb_elems())*100;
+						valueWithProportion=value*(countsize/Double.valueOf(train));	
 						result = String.valueOf(df.format(valueWithProportion));
 					}
 				}
@@ -58,7 +57,7 @@ public class FCAUtils {
 
 	public static ContextProtein createArtefactsBlocksFormalContextProtein(AdaptedModel adaptedModel) {
 
-		String train = Activator.getDefault().getPreferenceStore()
+		train = Activator.getDefault().getPreferenceStore()
 				.getString(ProteinsAdapterPreferencePage.TRAIN_PROTEIN_FAMILY);
 
 		// Creates a formal context
@@ -68,8 +67,8 @@ public class FCAUtils {
 		train_proteinlist = new ArrayList<String>(); 
 		train_name = new HashMap<>();
 		int nb_train = Integer.valueOf(train);
-
-	 	
+		int count=0;
+		
 		for(AdaptedArtefact aa : adaptedModel.getOwnedAdaptedArtefacts()) {
 			String proteinName=AdaptedModelHelper.getArtefactName(aa.getArtefact());
 			if(count<nb_train) {
@@ -95,13 +94,14 @@ public class FCAUtils {
 									artefactsName.get(i),
 									aa)
 							);
-
+					
 					if(train_proteinlist.contains(artefactsName.get(i))) {
 						if(!train_name.containsKey(b.getName())
 								||!train_name.get(b.getName()).contains(artefactsName.get(i))) {
 							proteinlist.add(artefactsName.get(i));
 						}
 					}
+					
 				}
 
 				train_name.put(b.getName(), proteinlist);
@@ -127,7 +127,7 @@ public class FCAUtils {
 		//create a binary attribute for average
 		//int compteur=0;
 		float total=0;
-		BinaryAttribute average = new BinaryAttribute("Average");
+		BinaryAttribute average = new BinaryAttribute("Sum");
 		fc.addAttribute(average);
 
 		// Add pairs
@@ -138,10 +138,9 @@ public class FCAUtils {
 						);
 
 				total+=Float.valueOf(getPercentage(block.getName(),aa.getArtefact().getName()));
-				//compteur++;
+			
 			}	
-			//for calculate average /compteur
-			fc.addPair(fc.getEntity(aa.getArtefact().getName()),average,String.valueOf(total/100));	
+			fc.addPair(fc.getEntity(aa.getArtefact().getName()),average,String.valueOf(total));	
 			total = 0; 
 		}
 
