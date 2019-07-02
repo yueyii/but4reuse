@@ -14,6 +14,7 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 
 	public static final String METHOD_AAC = "METHOD_AAC";
 	public static final String METHOD_CKSAAP = "METHOD_CKSAAP";
+	public static final String METHOD_CKSAAGP = "METHOD_CKSAAGP";
 	public static final String METHOD_EAAC = "METHOD_EAAC";
 	public static final String METHOD_EGAAC = "METHOD_EGAAC";
 	public static final String CREAT_HTML = "CREAT_HTML";
@@ -55,6 +56,10 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 		BooleanFieldEditor methodCKSAAP = new BooleanFieldEditor(METHOD_CKSAAP, "CKSAAP",
 				getFieldEditorParent());
 		addField(methodCKSAAP);
+		
+		BooleanFieldEditor methodCKSAAGP = new BooleanFieldEditor(METHOD_CKSAAGP, "CKSAAGP",
+				getFieldEditorParent());
+		addField(methodCKSAAGP);
 		
 		BooleanFieldEditor methodEAAC = new BooleanFieldEditor(METHOD_EAAC, "EAAC",
 				getFieldEditorParent());

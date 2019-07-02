@@ -19,6 +19,7 @@ import org.but4reuse.adapters.IElement;
 import org.but4reuse.adapters.proteins.activator.Activator;
 import org.but4reuse.adapters.proteins.methods.Context;
 import org.but4reuse.adapters.proteins.methods.MethodAAC;
+import org.but4reuse.adapters.proteins.methods.MethodCKSAAGP;
 import org.but4reuse.adapters.proteins.methods.MethodCKSAAP;
 import org.but4reuse.adapters.proteins.methods.MethodEAAC;
 import org.but4reuse.adapters.proteins.methods.MethodEGAAC;
@@ -44,7 +45,6 @@ public class ProteinAdapter implements IAdapter {
 	public List<IElement> adapt(URI uri, IProgressMonitor monitor) {
 		ArrayList<String> letters = new ArrayList<String>() ;
 		File file = FileUtils.getFile(uri);
-
 		try {
 			//read all the lines in the file
 			FileInputStream fstream = new FileInputStream(file);
@@ -103,16 +103,23 @@ public class ProteinAdapter implements IAdapter {
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_AAC)){
 			Context context = new Context(new MethodAAC());
 			return context.executeMethod(letters);
+			
 		}
-		else if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_CKSAAP)){
+		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_CKSAAP)){
 			Context context = new Context(new MethodCKSAAP());
 			return context.executeMethod(letters);
 		}
-		else if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EAAC)){
+		
+		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_CKSAAGP)){
+			Context context = new Context(new MethodCKSAAGP());
+			return context.executeMethod(letters);
+		}
+		
+		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EAAC)){
 			Context context = new Context(new MethodEAAC());
 			return context.executeMethod(letters);
 		}
-		else if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EGAAC)){
+		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EGAAC)){
 			Context context = new Context(new MethodEGAAC());
 			return context.executeMethod(letters);
 		}		

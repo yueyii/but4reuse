@@ -9,6 +9,7 @@ import org.but4reuse.adapters.IElement;
 import org.but4reuse.adapters.proteins.activator.Activator;
 import org.but4reuse.adapters.proteins.adapter.ProteinElement;
 import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
+import org.but4reuse.adapters.proteins.utils.Count;
 
 public class MethodCKSAAP implements Methods{
 	@Override
@@ -17,11 +18,15 @@ public class MethodCKSAAP implements Methods{
 		Map<String,Integer> letters = new HashMap<String,Integer>();
 		String first=null;
 		String second = null;
+		int count = 0;
+		
 		for(int index=0;index<Strletters.size();index++){
 			first=Strletters.get(index);
+			
 			if(index+1>=Strletters.size()){
 				break;
-			}else { second=Strletters.get(index+1);
+			}else { 
+				second=Strletters.get(index+1);
 			}
 			//Every protein element is composed by 2 letters
 			String letter = first+second;
@@ -34,7 +39,19 @@ public class MethodCKSAAP implements Methods{
 		for(String letter : letters.keySet()){
 			ProteinElement proteinElement = new ProteinElement(letter,letters.get(letter));
 			elements.add(proteinElement);
+			
+			//calculate the number of element in one protein
+			int times=letters.get(letter);
+			if(times==1) {
+				count++;
+			}else {
+				count+=times;		
+			}
 		}
+		
+		Count c = new Count();
+		c.setTimes(count);
+		
 		return elements;
 	}
 

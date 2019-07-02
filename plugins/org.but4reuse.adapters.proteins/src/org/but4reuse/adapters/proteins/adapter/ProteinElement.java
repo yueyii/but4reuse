@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.but4reuse.adapters.IElement;
 import org.but4reuse.adapters.proteins.adapter.ProteinElement;
 import org.but4reuse.adapters.proteins.methods.MethodAAC;
+import org.but4reuse.adapters.proteins.methods.MethodCKSAAGP;
 import org.but4reuse.adapters.proteins.methods.MethodCKSAAP;
 import org.but4reuse.adapters.proteins.methods.MethodEAAC;
 import org.but4reuse.adapters.proteins.methods.MethodEGAAC;
@@ -17,6 +18,7 @@ public class ProteinElement extends AbstractElement {
 	public int frequency;
 	private MethodAAC methodAAC = new MethodAAC();
 	private MethodCKSAAP methodCKSAAP = new MethodCKSAAP();
+	private MethodCKSAAGP methodCKSAAGP = new MethodCKSAAGP();
 	private MethodEAAC methodEAAC = new MethodEAAC();
 	private MethodEGAAC methodEGAAC = new MethodEGAAC();
 
@@ -47,6 +49,7 @@ public class ProteinElement extends AbstractElement {
 			ProteinElement protein = (ProteinElement) anotherElement;
 			//if we choose methodAAC/methodCKSAAP/methodEAAC
 			if(methodAAC.activatorMethod()||methodCKSAAP.activatorMethod()
+					||methodCKSAAGP.activatorMethod()
 					||methodEAAC.activatorMethod()||methodEGAAC.activatorMethod()){
 				//compare the frequency of two elements in the different proteins
 				if(this.letter.equals(protein.letter)){

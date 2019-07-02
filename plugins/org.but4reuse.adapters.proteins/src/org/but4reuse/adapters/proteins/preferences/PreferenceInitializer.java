@@ -11,6 +11,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		store.setDefault(ProteinsAdapterPreferencePage.METHOD_AAC, false);
 		store.setDefault(ProteinsAdapterPreferencePage.METHOD_CKSAAP, false);
+		store.setDefault(ProteinsAdapterPreferencePage.METHOD_CKSAAGP, true);
 		store.setDefault(ProteinsAdapterPreferencePage.METHOD_EAAC, false);
 		store.setDefault(ProteinsAdapterPreferencePage.METHOD_EGAAC, true);
 		store.setDefault(ProteinsAdapterPreferencePage.CREAT_HTML, true);

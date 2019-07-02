@@ -9,12 +9,15 @@ import org.but4reuse.adapters.IElement;
 import org.but4reuse.adapters.proteins.activator.Activator;
 import org.but4reuse.adapters.proteins.adapter.ProteinElement;
 import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
+import org.but4reuse.adapters.proteins.utils.Count;
 
 public class MethodAAC implements Methods{
 	@Override
 	public List<IElement> method(ArrayList<String> Strletters) {
 		List<IElement> elements = new ArrayList<IElement>();
 		Map<String,Integer> letters = new HashMap<String,Integer>();
+		int count = 0;
+		
 		for (String letter : Strletters) {
 				if(!letters.containsKey(letter)){
 					letters.put(letter, 1);
@@ -26,7 +29,18 @@ public class MethodAAC implements Methods{
 			for(String letter : letters.keySet()){
 				ProteinElement proteinElement = new ProteinElement(letter,letters.get(letter));
 				elements.add(proteinElement);
+				
+				//calculate the number of element in one protein
+				int times=letters.get(letter);
+				if(times==1) {
+					count++;
+				}else {
+					count+=times;		
+				}
 			}
+			
+			Count c = new Count();
+			c.setTimes(count);
 			return elements;
 		}
 
