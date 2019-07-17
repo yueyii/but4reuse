@@ -30,22 +30,58 @@ public class FCAUtils {
 		String result = "";
 		double value=0;
 		double valueWithProportion=0;
+		double min =100;
 		
 		DecimalFormat df = new DecimalFormat("#.####");
 
 		long startTime=System.currentTimeMillis();  	
 		for (BlockData n: block_stats_reuse.keySet()) {
 			double countsize=0;
-			if(n.getName()==blockName) {
-				
+			
+
+			if(n.getName()==blockName) {	
 				if(train_name.containsKey(blockName)) {
 					countsize = train_name.get(blockName).size();
+
 				} 
 				for(ArtefactData ad : block_stats_reuse.get(n)) {
 					if(ad.getName()==aretefactName){
-						value = ((n.getNbElem()*1.0)/ad.getNb_elems())*100;
-						valueWithProportion=value*(countsize/Double.valueOf(train));	
-						result = String.valueOf(df.format(valueWithProportion));
+						//percentage of the block 
+						System.out.println("-------ad"+ad.getName());
+						
+						for(String train_protein : train_proteinlist) {
+							
+							if(train_protein.equals(ad.getName())) {
+								value = ((n.getNbElem()*1.0)/ad.getNb_elems())*100;
+
+								System.out.println("value train"+value);
+
+								if(value<min) {
+									min= value;
+									System.out.println("min"+min);
+								}
+								valueWithProportion=value*(countsize/Double.valueOf(train));	
+								result = String.valueOf(df.format(valueWithProportion));
+								break;
+							}
+						}
+						
+						if(!train_proteinlist.contains(ad.getName())) {
+							value = ((n.getNbElem()*1.0)/ad.getNb_elems())*100;
+							if(value<min) {
+								System.out.println("value test"+value);
+								System.out.println("min test"+min);
+								result = String.valueOf(0);
+							}else {
+								valueWithProportion=value*(countsize/Double.valueOf(train));
+								result = String.valueOf(df.format(valueWithProportion));
+							}
+						}
+						//TODO if value < train min == 0 else calculate proportion
+						//								value = ((n.getNbElem()*1.0)/ad.getNb_elems())*100;
+						//								//with the proportion
+						//								valueWithProportion=value*(countsize/Double.valueOf(train));	
+						//								result = String.valueOf(df.format(valueWithProportion));
 					}
 				}
 			}
@@ -66,17 +102,22 @@ public class FCAUtils {
 		List<String> artefactsName = new ArrayList<String>();
 		train_proteinlist = new ArrayList<String>(); 
 		train_name = new HashMap<>();
+
 		int nb_train = Integer.valueOf(train);
 		int count=0;
-		
+
+		//read all the proteins and save the training proteins in a list
 		for(AdaptedArtefact aa : adaptedModel.getOwnedAdaptedArtefacts()) {
 			String proteinName=AdaptedModelHelper.getArtefactName(aa.getArtefact());
 			if(count<nb_train) {
+
 				train_proteinlist.add(proteinName);
 			}
 			artefactsName.add(AdaptedModelHelper.getArtefactName(aa.getArtefact()));	
 			count++;
 		}
+
+
 
 		for(Block b : adaptedModel.getOwnedBlocks()) {
 			List<ArtefactData> listData = new ArrayList<ArtefactData>();
@@ -94,14 +135,14 @@ public class FCAUtils {
 									artefactsName.get(i),
 									aa)
 							);
-					
+
 					if(train_proteinlist.contains(artefactsName.get(i))) {
 						if(!train_name.containsKey(b.getName())
 								||!train_name.get(b.getName()).contains(artefactsName.get(i))) {
 							proteinlist.add(artefactsName.get(i));
 						}
 					}
-					
+
 				}
 
 				train_name.put(b.getName(), proteinlist);
@@ -138,7 +179,7 @@ public class FCAUtils {
 						);
 
 				total+=Float.valueOf(getPercentage(block.getName(),aa.getArtefact().getName()));
-			
+
 			}	
 			fc.addPair(fc.getEntity(aa.getArtefact().getName()),average,String.valueOf(total));	
 			total = 0; 
