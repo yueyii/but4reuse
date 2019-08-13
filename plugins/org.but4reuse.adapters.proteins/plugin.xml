@@ -4,7 +4,7 @@
    <extension
          point="org.but4reuse.adapters">
       <adapter
-            class="org.but4reuse.adapters.proteins.adapter.ProteinAdapter"
+            class="org.but4reuse.adapters.proteins.utils.ProteinAdapter"
             icon="icons/proteins.gif"
             id="proteins"
             name="Proteins">

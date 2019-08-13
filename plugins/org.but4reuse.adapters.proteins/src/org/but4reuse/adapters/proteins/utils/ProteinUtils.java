@@ -2,9 +2,11 @@ package org.but4reuse.adapters.proteins.utils;
 
 import org.but4reuse.adapters.proteins.adapter.ProteinElement;
 import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
+import org.but4reuse.adapters.ui.xmlgenerator.ArtefactData;
+import org.but4reuse.adapters.ui.xmlgenerator.BlockData;
 public class ProteinUtils {
 	
-	public static final String[] PROTEIN_EXTENSIONS = { "*.txt", "*.fasta", "*.train","*.test" };
+	public static final String[] PROTEIN_EXTENSIONS = { "*.txt", "*.fasta", "*.train","*.test","*.xml" };
 
 	/**
 	 * Check if a file is an text or in fomal fasta based on the extension
@@ -39,8 +41,10 @@ public class ProteinUtils {
 	public static double getProteinSimilarity(ProteinElement proteinElement,ProteinElement proteinElement2){
 		Count c = new Count();
 		int times = c.getTimes();
+
 		double p1 = (double)(proteinElement.frequency)/times;
 		double p2 = (double)(proteinElement2.frequency)/times;
+
 		double automaticThreshold = ProteinsAdapterPreferencePage.getAutomaticEqualThresholdProtein();
 		if((Math.sqrt(Math.pow(p1-p2,2)))<=automaticThreshold){
 			return 1 ;

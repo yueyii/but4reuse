@@ -1,4 +1,4 @@
-package org.but4reuse.adapters.proteins.adapter;
+package org.but4reuse.adapters.proteins.utils;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -13,10 +13,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.but4reuse.adaptedmodel.manager.AdaptedModelManager;
 import org.but4reuse.adapters.IAdapter;
 import org.but4reuse.adapters.IElement;
 import org.but4reuse.adapters.proteins.activator.Activator;
+import org.but4reuse.adapters.proteins.adapter.ProteinElement;
 import org.but4reuse.adapters.proteins.methods.Context;
 import org.but4reuse.adapters.proteins.methods.MethodAAC;
 import org.but4reuse.adapters.proteins.methods.MethodCKSAAGP;
@@ -24,11 +29,15 @@ import org.but4reuse.adapters.proteins.methods.MethodCKSAAP;
 import org.but4reuse.adapters.proteins.methods.MethodEAAC;
 import org.but4reuse.adapters.proteins.methods.MethodEGAAC;
 import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
-import org.but4reuse.adapters.proteins.utils.ProteinUtils;
 import org.but4reuse.utils.files.FileUtils;
 import org.but4reuse.utils.workbench.WorkbenchUtils;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class ProteinAdapter implements IAdapter {
 
@@ -45,6 +54,7 @@ public class ProteinAdapter implements IAdapter {
 	public List<IElement> adapt(URI uri, IProgressMonitor monitor) {
 		ArrayList<String> letters = new ArrayList<String>() ;
 		File file = FileUtils.getFile(uri);
+
 		try {
 			//read all the lines in the file
 			FileInputStream fstream = new FileInputStream(file);
@@ -56,8 +66,8 @@ public class ProteinAdapter implements IAdapter {
 			//to cut a protein file to small files  
 			if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.CUT_FILE)){
 				String fileName = file.getName();
-				String fileTyle=fileName.substring(fileName.lastIndexOf("."),fileName.length());
 
+				String fileTyle=fileName.substring(fileName.lastIndexOf("."),fileName.length());
 				IContainer output = AdaptedModelManager.getDefaultOutput();
 				File outputFile = WorkbenchUtils.getFileFromIResource(output);
 				File folder = new File(outputFile, "newFiles");
@@ -103,25 +113,26 @@ public class ProteinAdapter implements IAdapter {
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_AAC)){
 			Context context = new Context(new MethodAAC());
 			return context.executeMethod(letters);
-			
+
 		}
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_CKSAAP)){
 			Context context = new Context(new MethodCKSAAP());
 			return context.executeMethod(letters);
 		}
-		
+
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_CKSAAGP)){
 			Context context = new Context(new MethodCKSAAGP());
 			return context.executeMethod(letters);
 		}
-		
+
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EAAC)){
 			Context context = new Context(new MethodEAAC());
 			return context.executeMethod(letters);
 		}
+
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EGAAC)){
 			Context context = new Context(new MethodEGAAC());
-			return context.executeMethod(letters);
+			return context.executeMethod(letters,file.getName());
 		}		
 
 		return null;

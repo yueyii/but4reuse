@@ -14,12 +14,16 @@ import org.but4reuse.visualisation.IVisualisation;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import fr.labri.galatea.Context;
+import fr.labri.galatea.io.GenerateHTML;
+
 
 public class FCAVisualisation implements IVisualisation {
 
 	@Override
 	public void prepare(FeatureList featureList, AdaptedModel adaptedModel, Object extra, IProgressMonitor monitor) {
 		IContainer output;
+		IContainer output2;
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.CREAT_HTML)){
 			
 			monitor.subTask("Saving formal context analysis visualisations");
@@ -36,13 +40,13 @@ public class FCAVisualisation implements IVisualisation {
 			// create folder
 			File folder = new File(outputFile, "proteinAnalysis");
 			folder.mkdir();
-
+			
 			//creat html for protein
 			ContextProtein fcProtein = FCAUtils.createArtefactsBlocksFormalContextProtein(adaptedModel);
 
 			//new file for protein
 			File filProtein = new File(folder, name + "_artefactsBlocksProtein.html");
-
+			
 			// new html for protein
 			GenarateHTMLProtein htmlprotein = new GenarateHTMLProtein(fcProtein);
 			htmlprotein.generateCode();
@@ -59,7 +63,6 @@ public class FCAVisualisation implements IVisualisation {
 			// Refresh
 			WorkbenchUtils.refreshIResource(output);
 		}
-		
 	}
 
 	@Override

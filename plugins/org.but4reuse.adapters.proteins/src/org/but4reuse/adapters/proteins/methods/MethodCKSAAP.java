@@ -64,4 +64,10 @@ public class MethodCKSAAP implements Methods{
 		}
 	}
 
+	@Override
+	public List<IElement> method(ArrayList<String> strLetter, String filename) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

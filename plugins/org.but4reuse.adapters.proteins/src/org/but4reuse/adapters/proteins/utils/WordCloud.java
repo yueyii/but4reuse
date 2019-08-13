@@ -23,7 +23,7 @@ public class WordCloud {
 	 * D:3
 	 * S:4
 	 * */
-	public static void initEGAAC() {
+	public static void initGroup() {
 		elems = new int[5][5];
 		for(int i =0;i< 5; i++) {
 			for(int j =0;j< 5;j++) {

@@ -22,4 +22,5 @@ Import-Package: fr.labri.galatea,
  org.but4reuse.fca.utils,
  org.but4reuse.visualisation
 Export-Package: org.but4reuse.adapters.proteins.activator,
+ org.but4reuse.adapters.proteins.adapter,
  org.but4reuse.adapters.proteins.preferences

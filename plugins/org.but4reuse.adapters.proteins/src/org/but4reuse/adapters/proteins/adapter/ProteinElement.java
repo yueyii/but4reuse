@@ -14,6 +14,7 @@ import org.but4reuse.adapters.proteins.utils.WordCloud;
 
 public class ProteinElement extends AbstractElement {
 
+
 	public String letter;
 	public int frequency;
 	private MethodAAC methodAAC = new MethodAAC();
@@ -30,8 +31,8 @@ public class ProteinElement extends AbstractElement {
 
 	@Override
 	public String getText() {
-		String text = "ProteinElement :"+ letter + " "+ 
-				"Frequency :"+frequency;
+		String text = "ProteinElement:"+ letter + " "+ 
+				"Frequency:"+frequency;
 		return text;
 	}
 
@@ -67,9 +68,9 @@ public class ProteinElement extends AbstractElement {
 		int position_size;
 		int index_size;
 		//if we chose EGAAC
-		if(methodEGAAC.activatorMethod()){
+		if(methodEGAAC.activatorMethod()||methodCKSAAGP.activatorMethod()){
 			elems= new int[5][5]; 
-			WordCloud.initEGAAC();
+			WordCloud.initGroup();
 			position_size=5;
 			index_size=5;
 			}

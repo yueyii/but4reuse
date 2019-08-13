@@ -10,5 +10,6 @@ import org.but4reuse.adapters.IElement;
 
 public interface Methods {
 	public List<IElement> method(ArrayList<String>  strLetter);
+	public List<IElement> method(ArrayList<String>  strLetter,String filename);
 	public boolean activatorMethod();
 }

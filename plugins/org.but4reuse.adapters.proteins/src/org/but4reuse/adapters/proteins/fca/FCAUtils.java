@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import org.but4reuse.adaptedmodel.AdaptedArtefact;
 import org.but4reuse.adaptedmodel.AdaptedModel;
 import org.but4reuse.adaptedmodel.Block;
 import org.but4reuse.adaptedmodel.helpers.AdaptedModelHelper;
+import org.but4reuse.adapters.IElement;
 import org.but4reuse.adapters.proteins.activator.Activator;
 import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
+import org.but4reuse.adapters.proteins.utils.Count;
 import org.but4reuse.adapters.ui.xmlgenerator.ArtefactData;
 import org.but4reuse.adapters.ui.xmlgenerator.BlockData;
 
@@ -23,22 +27,40 @@ public class FCAUtils {
 	private static Map<String, List<String>> train_name;
 
 	private static ArrayList<String> train_proteinlist;
+	private static Map<String, Double> train_min;
 	private static String train = "";
 	static String str;
 
+	//calculate frequency of element in the block
+	public static int countElementOfBlock(String filename, List<IElement> elementlist) {
+		int count = 0;
+		Count c = new Count();
+
+		for (Entry<String, Map<IElement, Integer>> block : c.getMapBlock().entrySet()) {
+			if(filename.equals(block.getKey())) {
+				for (Entry<IElement, Integer> element : block.getValue().entrySet()) {
+					if(elementlist.contains(element.getKey())) {
+						count+=element.getValue();
+					}
+				}
+			}
+		}
+		return count;
+	}
+
 	public static String getPercentage(String blockName,String aretefactName) {
-		String result = "";
+		String result = ""; 
 		double value=0;
 		double valueWithProportion=0;
-		double min =100;
-		
+
+
 		DecimalFormat df = new DecimalFormat("#.####");
 
 		long startTime=System.currentTimeMillis();  	
 		for (BlockData n: block_stats_reuse.keySet()) {
 			double countsize=0;
-			
 
+			// the training protein in the block
 			if(n.getName()==blockName) {	
 				if(train_name.containsKey(blockName)) {
 					countsize = train_name.get(blockName).size();
@@ -47,41 +69,59 @@ public class FCAUtils {
 				for(ArtefactData ad : block_stats_reuse.get(n)) {
 					if(ad.getName()==aretefactName){
 						//percentage of the block 
-						System.out.println("-------ad"+ad.getName());
-						
 						for(String train_protein : train_proteinlist) {
-							
+
 							if(train_protein.equals(ad.getName())) {
-								value = ((n.getNbElem()*1.0)/ad.getNb_elems())*100;
-
-								System.out.println("value train"+value);
-
-								if(value<min) {
-									min= value;
-									System.out.println("min"+min);
-								}
-								valueWithProportion=value*(countsize/Double.valueOf(train));	
-								result = String.valueOf(df.format(valueWithProportion));
-								break;
-							}
-						}
-						
-						if(!train_proteinlist.contains(ad.getName())) {
-							value = ((n.getNbElem()*1.0)/ad.getNb_elems())*100;
-							if(value<min) {
-								System.out.println("value test"+value);
-								System.out.println("min test"+min);
-								result = String.valueOf(0);
-							}else {
+								Count c = new Count();
+								double nn= countElementOfBlock(ad.getName(),n.getList());
+								double add = c.getCountFromName(ad.getName());
+								value = nn / add ;	
 								valueWithProportion=value*(countsize/Double.valueOf(train));
+
+								//check if train_min is empty, add the first block of the train into table
+								if(train_min.isEmpty()) {
+									train_min.put(blockName, valueWithProportion);
+								}
+								//if train_min doesn't exist the block, add it
+								else if(!train_min.containsKey(blockName)) {
+									train_min.put(blockName, valueWithProportion);		
+								}
+
+								for (Entry<String, Double> minn : train_min.entrySet()) {
+									//if the train_min has the block and the protein training has value smaller then min, replace min in the table
+									if(minn.getKey().equals(blockName)) {
+										if(valueWithProportion < minn.getValue()) {		
+											train_min.put(blockName, valueWithProportion);
+										}
+									}
+								}
+
 								result = String.valueOf(df.format(valueWithProportion));
+
 							}
 						}
-						//TODO if value < train min == 0 else calculate proportion
-						//								value = ((n.getNbElem()*1.0)/ad.getNb_elems())*100;
-						//								//with the proportion
-						//								valueWithProportion=value*(countsize/Double.valueOf(train));	
-						//								result = String.valueOf(df.format(valueWithProportion));
+
+						//if the protein is testing not training
+						if(!train_proteinlist.contains(ad.getName())) {
+							Count c = new Count();
+							double nn= countElementOfBlock(ad.getName(),n.getList());
+							double add = c.getCountFromName(ad.getName());
+							value = nn / add ;
+							valueWithProportion=value*(countsize/Double.valueOf(train));
+							result = String.valueOf(df.format(valueWithProportion));
+
+							//check if the value is smaller then min of the training, if it is, then replace the value to 0
+							for (Entry<String, Double> minn : train_min.entrySet()) {
+								if(minn.getKey().equals(blockName)) {
+									if(valueWithProportion<minn.getValue()) {
+										result = String.valueOf(0);
+									}
+									else {
+										result = String.valueOf(df.format(valueWithProportion));
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -102,6 +142,7 @@ public class FCAUtils {
 		List<String> artefactsName = new ArrayList<String>();
 		train_proteinlist = new ArrayList<String>(); 
 		train_name = new HashMap<>();
+		train_min= new HashMap<>();
 
 		int nb_train = Integer.valueOf(train);
 		int count=0;
@@ -117,10 +158,8 @@ public class FCAUtils {
 			count++;
 		}
 
-
-
 		for(Block b : adaptedModel.getOwnedBlocks()) {
-			List<ArtefactData> listData = new ArrayList<ArtefactData>();
+			List<ArtefactData>listData = new ArrayList<ArtefactData>();
 			ArrayList<String> proteinlist = new ArrayList<>() ;
 
 			for(int i=0 ; i< adaptedModel.getOwnedAdaptedArtefacts().size(); i++) {	
@@ -128,7 +167,6 @@ public class FCAUtils {
 
 				if( AdaptedModelHelper.getBlocksOfAdaptedArtefact(aa).contains(b)) {
 					List<Block> aa_block = AdaptedModelHelper.getBlocksOfAdaptedArtefact(aa);
-
 					listData.add(
 							new ArtefactData(aa_block.size(),
 									AdaptedModelHelper.getElementsOfBlocks(aa_block).size(),
@@ -144,6 +182,7 @@ public class FCAUtils {
 					}
 
 				}
+				//Add 
 
 				train_name.put(b.getName(), proteinlist);
 				block_stats_reuse.put(new BlockData(b.getName(), AdaptedModelHelper.getElementsOfBlock(b)), listData);
@@ -177,9 +216,7 @@ public class FCAUtils {
 				fc.addPair(fc.getEntity(aa.getArtefact().getName())
 						, blockNameMap.get(block.getName()),getPercentage(block.getName(),aa.getArtefact().getName())
 						);
-
 				total+=Float.valueOf(getPercentage(block.getName(),aa.getArtefact().getName()));
-
 			}	
 			fc.addPair(fc.getEntity(aa.getArtefact().getName()),average,String.valueOf(total));	
 			total = 0; 
