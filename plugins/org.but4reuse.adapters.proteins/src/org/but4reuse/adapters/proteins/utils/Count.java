@@ -7,7 +7,6 @@ import org.but4reuse.adapters.IElement;
 
 public class Count {
 	static int times;
-	
 	public static Map<String, Integer> Mapp = new HashMap<String, Integer>();
 	public static Map<String,Map<IElement, Integer>> MapFileBlock = new HashMap<String, Map <IElement, Integer>>();
 	public static Map<IElement, Integer> MapBlock = new HashMap <IElement, Integer>();

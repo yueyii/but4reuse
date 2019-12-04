@@ -27,7 +27,6 @@ public class FCAUtils {
 	private static Map<String, List<String>> train_name;
 
 	private static ArrayList<String> train_proteinlist;
-	private static Map<String, Double> train_min;
 	private static String train = "";
 	static String str;
 
@@ -48,11 +47,10 @@ public class FCAUtils {
 		return count;
 	}
 
-	public static String getPercentage(String blockName,String aretefactName) {
+	public static String getPercentage(String blockName,String aretefactName){
 		String result = ""; 
 		double value=0;
 		double valueWithProportion=0;
-
 
 		DecimalFormat df = new DecimalFormat("#.####");
 
@@ -64,64 +62,16 @@ public class FCAUtils {
 			if(n.getName()==blockName) {	
 				if(train_name.containsKey(blockName)) {
 					countsize = train_name.get(blockName).size();
-
 				} 
 				for(ArtefactData ad : block_stats_reuse.get(n)) {
 					if(ad.getName()==aretefactName){
 						//percentage of the block 
-						for(String train_protein : train_proteinlist) {
-
-							if(train_protein.equals(ad.getName())) {
-								Count c = new Count();
-								double nn= countElementOfBlock(ad.getName(),n.getList());
-								double add = c.getCountFromName(ad.getName());
-								value = nn / add ;	
-								valueWithProportion=value*(countsize/Double.valueOf(train));
-
-								//check if train_min is empty, add the first block of the train into table
-								if(train_min.isEmpty()) {
-									train_min.put(blockName, valueWithProportion);
-								}
-								//if train_min doesn't exist the block, add it
-								else if(!train_min.containsKey(blockName)) {
-									train_min.put(blockName, valueWithProportion);		
-								}
-
-								for (Entry<String, Double> minn : train_min.entrySet()) {
-									//if the train_min has the block and the protein training has value smaller then min, replace min in the table
-									if(minn.getKey().equals(blockName)) {
-										if(valueWithProportion < minn.getValue()) {		
-											train_min.put(blockName, valueWithProportion);
-										}
-									}
-								}
-
-								result = String.valueOf(df.format(valueWithProportion));
-
-							}
-						}
-
-						//if the protein is testing not training
-						if(!train_proteinlist.contains(ad.getName())) {
-							Count c = new Count();
-							double nn= countElementOfBlock(ad.getName(),n.getList());
-							double add = c.getCountFromName(ad.getName());
-							value = nn / add ;
-							valueWithProportion=value*(countsize/Double.valueOf(train));
-							result = String.valueOf(df.format(valueWithProportion));
-
-							//check if the value is smaller then min of the training, if it is, then replace the value to 0
-							for (Entry<String, Double> minn : train_min.entrySet()) {
-								if(minn.getKey().equals(blockName)) {
-									if(valueWithProportion<minn.getValue()) {
-										result = String.valueOf(0);
-									}
-									else {
-										result = String.valueOf(df.format(valueWithProportion));
-									}
-								}
-							}
-						}
+						Count c = new Count();
+						double nn= countElementOfBlock(ad.getName(),n.getList());
+						double add = c.getCountFromName(ad.getName());
+						value = nn / add ;	
+						valueWithProportion=value*(countsize/Double.valueOf(train));
+						result = String.valueOf(df.format(valueWithProportion*100));
 					}
 				}
 			}
@@ -132,7 +82,6 @@ public class FCAUtils {
 	}
 
 	public static ContextProtein createArtefactsBlocksFormalContextProtein(AdaptedModel adaptedModel) {
-
 		train = Activator.getDefault().getPreferenceStore()
 				.getString(ProteinsAdapterPreferencePage.TRAIN_PROTEIN_FAMILY);
 
@@ -142,7 +91,6 @@ public class FCAUtils {
 		List<String> artefactsName = new ArrayList<String>();
 		train_proteinlist = new ArrayList<String>(); 
 		train_name = new HashMap<>();
-		train_min= new HashMap<>();
 
 		int nb_train = Integer.valueOf(train);
 		int count=0;

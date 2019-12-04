@@ -23,7 +23,6 @@ public class FCAVisualisation implements IVisualisation {
 	@Override
 	public void prepare(FeatureList featureList, AdaptedModel adaptedModel, Object extra, IProgressMonitor monitor) {
 		IContainer output;
-		IContainer output2;
 		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.CREAT_HTML)){
 			
 			monitor.subTask("Saving formal context analysis visualisations");

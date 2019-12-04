@@ -8,6 +8,7 @@ import org.but4reuse.adapters.proteins.methods.MethodCKSAAGP;
 import org.but4reuse.adapters.proteins.methods.MethodCKSAAP;
 import org.but4reuse.adapters.proteins.methods.MethodEAAC;
 import org.but4reuse.adapters.proteins.methods.MethodEGAAC;
+import org.but4reuse.adapters.proteins.methods.MethodEGAAC2;
 import org.but4reuse.adapters.impl.AbstractElement;
 import org.but4reuse.adapters.proteins.utils.ProteinUtils;
 import org.but4reuse.adapters.proteins.utils.WordCloud;
@@ -22,7 +23,8 @@ public class ProteinElement extends AbstractElement {
 	private MethodCKSAAGP methodCKSAAGP = new MethodCKSAAGP();
 	private MethodEAAC methodEAAC = new MethodEAAC();
 	private MethodEGAAC methodEGAAC = new MethodEGAAC();
-
+	private MethodEGAAC2 methodEGAAC2 = new MethodEGAAC2();
+	
 	//construtor
 	public ProteinElement(String letter,int frequency) {
 		this.letter = letter;
@@ -51,9 +53,10 @@ public class ProteinElement extends AbstractElement {
 			//if we choose methodAAC/methodCKSAAP/methodEAAC
 			if(methodAAC.activatorMethod()||methodCKSAAP.activatorMethod()
 					||methodCKSAAGP.activatorMethod()
-					||methodEAAC.activatorMethod()||methodEGAAC.activatorMethod()){
+					||methodEAAC.activatorMethod()||methodEGAAC.activatorMethod()||methodEGAAC2.activatorMethod()){
 				//compare the frequency of two elements in the different proteins
 				if(this.letter.equals(protein.letter)){
+					System.out.print(protein+"\n");
 					return ProteinUtils.getProteinSimilarity(this,protein);
 				}
 			}
@@ -70,7 +73,14 @@ public class ProteinElement extends AbstractElement {
 		//if we chose EGAAC
 		if(methodEGAAC.activatorMethod()||methodCKSAAGP.activatorMethod()){
 			elems= new int[5][5]; 
-			WordCloud.initGroup();
+			WordCloud.initGroup1();
+			position_size=5;
+			index_size=5;
+			}
+		//if we choose EGAAC2(11groups)
+		else if(methodEGAAC2.activatorMethod()){
+			elems= new int[5][11]; 
+			WordCloud.initGroup2();
 			position_size=5;
 			index_size=5;
 			}

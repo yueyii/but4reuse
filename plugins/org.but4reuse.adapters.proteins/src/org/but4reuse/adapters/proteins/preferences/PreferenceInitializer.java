@@ -13,7 +13,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(ProteinsAdapterPreferencePage.METHOD_CKSAAP, false);
 		store.setDefault(ProteinsAdapterPreferencePage.METHOD_CKSAAGP, true);
 		store.setDefault(ProteinsAdapterPreferencePage.METHOD_EAAC, false);
-		store.setDefault(ProteinsAdapterPreferencePage.METHOD_EGAAC, true);
+		store.setDefault(ProteinsAdapterPreferencePage.METHOD_EGAAC, false);
+		store.setDefault(ProteinsAdapterPreferencePage.METHOD_EGAAC2, true);
 		store.setDefault(ProteinsAdapterPreferencePage.CREAT_HTML, true);
 		store.setDefault(ProteinsAdapterPreferencePage.CUT_FILE, true);
 		store.setDefault(ProteinsAdapterPreferencePage.AUTOMATIC_EQUAL_THRESHOLD_PROTEIN, 0.00);

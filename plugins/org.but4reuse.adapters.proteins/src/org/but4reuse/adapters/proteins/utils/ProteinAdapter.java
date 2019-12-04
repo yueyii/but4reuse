@@ -28,6 +28,7 @@ import org.but4reuse.adapters.proteins.methods.MethodCKSAAGP;
 import org.but4reuse.adapters.proteins.methods.MethodCKSAAP;
 import org.but4reuse.adapters.proteins.methods.MethodEAAC;
 import org.but4reuse.adapters.proteins.methods.MethodEGAAC;
+import org.but4reuse.adapters.proteins.methods.MethodEGAAC2;
 import org.but4reuse.adapters.proteins.preferences.ProteinsAdapterPreferencePage;
 import org.but4reuse.utils.files.FileUtils;
 import org.but4reuse.utils.workbench.WorkbenchUtils;
@@ -135,6 +136,10 @@ public class ProteinAdapter implements IAdapter {
 			return context.executeMethod(letters,file.getName());
 		}		
 
+		if(Activator.getDefault().getPreferenceStore().getBoolean(ProteinsAdapterPreferencePage.METHOD_EGAAC2)){
+			Context context = new Context(new MethodEGAAC2());
+			return context.executeMethod(letters,file.getName());
+		}		
 		return null;
 	}
 

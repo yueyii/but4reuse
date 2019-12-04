@@ -23,7 +23,7 @@ public class WordCloud {
 	 * D:3
 	 * S:4
 	 * */
-	public static void initGroup() {
+	public static void initGroup1() {
 		elems = new int[5][5];
 		for(int i =0;i< 5; i++) {
 			for(int j =0;j< 5;j++) {
@@ -36,6 +36,41 @@ public class WordCloud {
 		keyvalue.put('K', 2);
 		keyvalue.put('D', 3);
 		keyvalue.put('S', 4);
+	}
+	
+	
+	/* 11 group's position index
+	 * A:0
+	 * R:1
+	 * C:2
+	 * S:3
+	 * D:4
+	 * N:5
+	 * G:6
+	 * F:7
+	 * P:8
+	 * W:9
+	 * Y:10
+	 * */
+	public static void initGroup2() {
+		elems = new int[5][11];
+		for(int i =0;i< 5; i++) {
+			for(int j =0;j< 5;j++) {
+				elems[i][j]=-1;
+			}		
+		}
+		keyvalue = new HashMap<Character, Integer>();
+		keyvalue.put('A', 0);
+		keyvalue.put('R', 1);
+		keyvalue.put('C', 2);
+		keyvalue.put('S', 3);
+		keyvalue.put('D', 4);
+		keyvalue.put('N', 5);
+		keyvalue.put('G', 6);
+		keyvalue.put('F', 7);
+		keyvalue.put('P', 8);
+		keyvalue.put('W', 9);
+		keyvalue.put('Y', 10);
 	}
 	
 	//for other method expect method EGAAC

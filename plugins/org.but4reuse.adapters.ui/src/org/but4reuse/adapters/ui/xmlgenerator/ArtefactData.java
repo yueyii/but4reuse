@@ -22,6 +22,12 @@ public class ArtefactData {
 		this.name = name;
 		this.aa = aa;
 	}
+	
+	public ArtefactData(int nb_elems) {
+		
+		this.nb_elems = nb_elems;
+		
+	}
 
 	public int getNb_blocks() {
 		return nb_blocks;

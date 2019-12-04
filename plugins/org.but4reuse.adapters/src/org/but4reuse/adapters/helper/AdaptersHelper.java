@@ -203,7 +203,7 @@ public class AdaptersHelper {
 			if (artefact instanceof ComposedArtefact) {
 				ComposedArtefact cArtefact = (ComposedArtefact) artefact;
 				for (Artefact a : cArtefact.getOwnedArtefacts()) {
-					list.addAll(getElements(a, adapters));
+					list.addAll(getElements(a, adapters)); 
 				}
 			} else {
 				for (IAdapter ada : adapters) {

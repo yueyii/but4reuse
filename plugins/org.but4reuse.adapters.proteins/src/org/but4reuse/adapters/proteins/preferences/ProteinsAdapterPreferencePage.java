@@ -17,6 +17,7 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 	public static final String METHOD_CKSAAGP = "METHOD_CKSAAGP";
 	public static final String METHOD_EAAC = "METHOD_EAAC";
 	public static final String METHOD_EGAAC = "METHOD_EGAAC";
+	public static final String METHOD_EGAAC2 = "METHOD_EGAAC2";
 	public static final String CREAT_HTML = "CREAT_HTML";
 	public static final String CUT_FILE = "CUT_FILE";
 	public static final String AUTOMATIC_EQUAL_THRESHOLD_PROTEIN = "automatic_threshold_protein";
@@ -65,9 +66,13 @@ public class ProteinsAdapterPreferencePage extends FieldEditorPreferencePage imp
 				getFieldEditorParent());
 		addField(methodEAAC);
 		
-		BooleanFieldEditor methodEGAAC = new BooleanFieldEditor(METHOD_EGAAC, "EGAAC",
+		BooleanFieldEditor methodEGAAC = new BooleanFieldEditor(METHOD_EGAAC, "EGAAC(5group)",
 				getFieldEditorParent());
 		addField(methodEGAAC);
+		
+		BooleanFieldEditor methodEGAAC2 = new BooleanFieldEditor(METHOD_EGAAC2, "EGAAC2(11groups)",
+				getFieldEditorParent());
+		addField(methodEGAAC2);
 		
 		BooleanFieldEditor creatHtml = new BooleanFieldEditor(CREAT_HTML, "Creat Html",
 				getFieldEditorParent());
